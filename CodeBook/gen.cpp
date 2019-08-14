@@ -6,8 +6,12 @@
 #define INFO "\033[1;34m"
 #define END   "\033[0m"
 using namespace std;
-void throwError(const string &msg, int line_cnt, string &input) {
+void throwParserError(const string &msg, int line_cnt, string &input) {
     cerr << ERROR << LINE << msg << ": " << input << '\n' << END;
+    exit(0);
+}
+void throwTestError(const string &msg) {
+    cerr << ERROR << msg << '\n' << END;
     exit(0);
 }
 bool isPathExist(const string &s) {
@@ -17,13 +21,13 @@ bool isPathExist(const string &s) {
 void checkTestStructure(const string &s, int line_cnt, string &input) {
     if (s == "-") return ;
     if (!isPathExist(s))
-        throwError("Config Test Folder input folder Not Found", line_cnt, input);
+        throwParserError("Config Test Folder input folder Not Found", line_cnt, input);
     if (!isPathExist(s + "/input"))
-        throwError("Config Test Folder Structure input folder Not Found", line_cnt, input);
+        throwParserError("Config Test Folder Structure input folder Not Found", line_cnt, input);
     if (!isPathExist(s + "/output"))
-        throwError("Config Test Folder Structure output folder Not Found", line_cnt, input);
+        throwParserError("Config Test Folder Structure output folder Not Found", line_cnt, input);
     if (!isPathExist(s + "/answer"))
-        throwError("Config Test Folder Structure answer folder Not Found", line_cnt, input);
+        throwParserError("Config Test Folder Structure answer folder Not Found", line_cnt, input);
     int in_cnt = 0;
     int ans_cnt = 0;
     while (1) {
@@ -36,14 +40,14 @@ void checkTestStructure(const string &s, int line_cnt, string &input) {
     while (1) {
         stringstream ss; ss << ans_cnt + 1;
         string str; ss >> str;
-        if (!isPathExist(s + "/answer/" + str + ".in"))
+        if (!isPathExist(s + "/answer/" + str + ".ans"))
             break;
         ans_cnt++;
     }
     if (in_cnt == 0)
-        throwError("Test Data Not Found", line_cnt, input);
+        throwParserError("Test Data Not Found", line_cnt, input);
     if (in_cnt != ans_cnt)
-        throwError("Number of Test Data between Input and Answer not match", line_cnt, input);
+        throwParserError("Number of Test Data between Input and Answer not match", line_cnt, input);
 }
 struct s {
     string name;
@@ -65,42 +69,71 @@ struct CodeBook : vector<S> {
                 case 'S':
                     ss >> name;
                     if (name == "")
-                        throwError("Config Name Error", line_cnt, input);
+                        throwParserError("Config Name Error", line_cnt, input);
                     push_back(S(name));
                     break;
                 case 's':
                     ss >> name >> sour_path >> test_path;
                     if (name == "")
-                        throwError("Config Name Error", line_cnt, input);
+                        throwParserError("Config Name Error", line_cnt, input);
                     if (!isPathExist(sour_path))
-                        throwError("Config Source File Not Found Error", line_cnt, input);
+                        throwParserError("Config Source File Not Found Error", line_cnt, input);
                     checkTestStructure(test_path, line_cnt, input);
                     back().push_back({name, sour_path, test_path});
                     break;
                 default:
-                    throwError("Config Type Error", line_cnt, input);
+                    throwParserError("Config Type Error", line_cnt, input);
             }
         }
     }
 };
+int cmd(const string &s) {
+    return system(s.c_str());
+}
+void testOne(s &_s) {
+    if (cmd("g++ -std=c++17 " + _s.sour_path + " -o test.out"))
+        throwTestError("Compile " + _s.sour_path + " Error");
+    int cnt = 0;
+    while (1) {
+        stringstream ss; ss << cnt + 1;
+        string str; ss >> str;
+        if (!isPathExist(_s.test_path + "/input/" + str + ".in"))
+            break;
+        string input_file  = _s.test_path + "/input/" + str + ".in";
+        string output_file = _s.test_path + "/output/" + str + ".out";
+        string answer_file = _s.test_path + "/answer/" + str + ".ans";
+        cmd("./test.out < " + input_file + " > " + output_file);
+        cmd("diff " + output_file + " " + answer_file + " | wc -l > result");
+        ifstream result("result");
+        bool wa; result >> wa;
+        cnt++;
+        cout << "----testcase #" << cnt << ": ";
+        if (wa) {
+            cout << ERROR << "WA\n" << END;
+            cmd("rm result test.out");
+            throwTestError(_s.name + ": wrong answer on test " + str);
+        } else cout << CORRECT << "AC\n" << END;
+    }
+    cmd("rm result test.out");
+}
 void testAll(CodeBook &codebook) {
     for (auto &_S : codebook) {
-        cerr << _S.name << '\n';
+        cout << _S.name << '\n';
         for (auto &_s : _S) {
             if (_s.test_path == "-")
                 continue;
-            cout << "\t" << _s.name << '\n';
-            
+            cout << "--" << _s.name << '\n';
+            testOne(_s);
         }
     }
 }
 int main() {
     ifstream config("config");
-    cerr << INFO << "Config Parser\n" << END;
+    cout << INFO << "Config Parser\n" << END;
     CodeBook codebook(config);
-    cerr << CORRECT << "Config Parser Correct\n" << END;
-    // cerr << INFO << "Test Template\n" << END;
-    // testAll(codebook);
-    // cerr << CORRECT << "Test Template Correct\n" << END;
-    // string latex_output;
+    cout << CORRECT << "Config Parser Correct\n" << END;
+    cout << INFO << "Test Template\n" << END;
+    testAll(codebook);
+    cout << CORRECT << "Test Template Correct\n" << END;
+    string latex_output;
 }
