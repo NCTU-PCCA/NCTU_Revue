@@ -127,6 +127,30 @@ void testAll(CodeBook &codebook) {
         }
     }
 }
+void genCodeBook(CodeBook &codebook) {
+    ofstream out("content.tex");
+    for (auto &_S : codebook) {
+        out << "\\section{" << _S.name << "}\n";
+        for (auto &_s : _S) {
+            out << "\\subsection{" << _s.name << "}\n";
+            out << "\\begin{lstlisting}\n";
+            ifstream code(_s.sour_path);
+            string str;
+            int write = 0;
+            while (getline(code, str)) {
+                if (str == "// LatexEnd")
+                    write++;
+                if (write == 2)
+                    break;
+                if (write % 2)
+                    out << str << '\n';
+                if (str == "// LatexBegin")
+                    write++;
+            }
+            out << "\\end{lstlisting}\n";
+        }
+    }
+}
 int main() {
     ifstream config("config");
     cout << INFO << "Config Parser\n" << END;
@@ -135,5 +159,9 @@ int main() {
     cout << INFO << "Test Template\n" << END;
     testAll(codebook);
     cout << CORRECT << "Test Template Correct\n" << END;
-    string latex_output;
+    cout << INFO << "Generate CodeBook" << END << '\n';
+    genCodeBook(codebook);
+    cmd("xelatex codebook.tex");
+    cmd("rm codebook.aux codebook.log codebook.toc content.tex -f > /dev/null");
+    cout << CORRECT << "Generate CodeBook Done\n" << END;
 }

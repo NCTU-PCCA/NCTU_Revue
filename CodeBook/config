@@ -1,3 +1,5 @@
 S Basic
     s vimrc Basic/vimrc -
-    s __int128 Basic/__int128.cpp test/Basic/__int128
+    s int128 Basic/__int128.cpp test/Basic/__int128
+S Flow
+    s Dinic Flow/Dinic.cpp test/Flow/Dinic

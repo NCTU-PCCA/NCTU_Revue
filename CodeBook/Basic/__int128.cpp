@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-//LatexBegin
+// LatexBegin
 __int128 parse(string &s) {
     __int128 ret = 0;
     for (int i = 0 ; i < (int)s.size() ; i++)
@@ -32,7 +32,7 @@ I& operator >> (I &in, __int128_t &v) {
     v = parse(s);
     return in;
 }
-//LatexEnd
+// LatexEnd
 int main() {
     ios_base::sync_with_stdio(false); cin.tie(0);
     __int128_t x, y; cin >> x >> y;
