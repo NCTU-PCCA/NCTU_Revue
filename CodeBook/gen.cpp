@@ -136,16 +136,14 @@ void genCodeBook(CodeBook &codebook) {
             out << "\\begin{lstlisting}\n";
             ifstream code(_s.sour_path);
             string str;
-            int write = 0;
+            bool write = false;
             while (getline(code, str)) {
                 if (str == "// LatexEnd")
-                    write++;
-                if (write == 2)
-                    break;
-                if (write % 2)
+                    write = false;
+                if (write)
                     out << str << '\n';
                 if (str == "// LatexBegin")
-                    write++;
+                    write = true;
             }
             out << "\\end{lstlisting}\n";
         }
