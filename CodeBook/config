@@ -9,3 +9,5 @@ S DataStructure
     s pbdsTree      DataStructure/pbds_tree.cpp     -
     s pbdsHeap      DataStructure/pbds_heap.cpp     -
     s Treap         DataStructure/Treap.cpp         test/DataStructure/Treap
+    s SparseTable   DataStructure/SparseTable.cpp   test/DataStructure/SparseTable
+    s BIT           DataStructure/BIT.cpp           test/DataStructure/BIT
