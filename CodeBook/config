@@ -1,5 +1,8 @@
 S Basic
-    s vimrc Basic/vimrc -
-    s int128 Basic/__int128.cpp test/Basic/__int128
+    s vimrc         Basic/vimrc                 -
+    s int128        Basic/__int128.cpp          test/Basic/__int128
 S Flow
-    s Dinic Flow/Dinic.cpp test/Flow/Dinic
+    s Dinic         Flow/Dinic.cpp              test/Flow/Dinic
+    s MCMF          Flow/MCMF.cpp               test/Flow/MCMF
+S DataStructure
+    s Treap         DataStructure/Treap.cpp     test/DataStructure/Treap
