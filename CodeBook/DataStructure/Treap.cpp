@@ -4,159 +4,224 @@ typedef long long LL;
 #define F first
 #define S second
 const int MAXN = 2e5 + 5;
+const int MAXVER = MAXN;
+template <typename T> struct _ptrCntr{
+    T v; int c;
+    _ptrCntr(const T& _v):v(_v){ c = 0;}
+};
+template <typename T>
+struct Sptr{
+    _ptrCntr<T> *p;
+    T* operator->(){ return &p->v; }
+    T& operator* (){ return  p->v; }
+    operator _ptrCntr<T>*(){ return p; }
+    Sptr& operator = (const Sptr<T>& t){
+        if (p && !--p->c) delete p;
+        (p = t.p) && ++p->c;
+        return *this;
+    }
+    Sptr(_ptrCntr<T> *t = 0) : p(t){ p && ++p->c; }
+    Sptr(const Sptr& t) : p(t.p){ p  && ++p->c; }
+    ~Sptr(){ if (p && !--p->c) delete p;}
+};
+
 // LatexBegin
-#define PNN pair<Node*, Node*>
+//<<<<<<<<<<PERSISTENT
+#define PTR Sptr<Node>
+//====================
+// LatexEnd
+int d;
+/*
+// LatexBegin
+#define PTR Node*
+// LatexEnd
+*/
+// LatexBegin
+//>>>>>>>>>>ORIGIN
+#define PNN pair<PTR, PTR>
 struct Treap {
-    struct Node {
-        Node *l, *r;
-        int sz, v;
-        // data
-        int minV;
-        // tag
-        int add;
-        bool rev;
-        Node (int v = 0) : v(v) {
-            l = r = NULL;
-            sz = 1;
-            add = 0; rev = false;
-        }
-    }*rt, _mem[MAXN], *ptr;
-    Treap() { rt = NULL; ptr = _mem; }
-    inline int size(Node *u) {
-        return u ? u->sz : 0;
-    }
-    inline Node*& pull(Node *&u) {
-        u->sz = 1 + size(push(u->l)) + size(push(u->r));
-        // pull function
+  struct Node {
+    PTR l; PTR r;
+    int sz; char c;
 // LatexEnd
-        u->minV = u->v;
-        if (u->l) u->minV = min(u->minV, u->l->minV);
-        if (u->r) u->minV = min(u->minV, u->r->minV);
 // LatexBegin
-        return u;
+    Node (char c = 0) : c(c), l(NULL), r(NULL) {
+      sz = 1;
     }
-    inline Node*& push(Node *&u) {
-        if (!u) return u;
-        // push function
+  };
+//<<<<<<<<<<PRESISTENT
+  PTR ver[MAXVER];
+  int verCnt;
+  Treap() { verCnt = 0; }
+  inline Sptr<Node> copy(Sptr<Node> &u){
+    return _new(*u);
+  }
+//====================
 // LatexEnd
-        if (u->add){
-            u->v += u->add;
-            u->minV += u->add;
-            if (u->l) u->l->add += u->add;
-            if (u->r) u->r->add += u->add;
-            u->add = 0;
-        }
-        if (u->rev){
-            swap(u->l, u->r);
-            if (u->l) u->l->rev ^= 1;
-            if (u->r) u->r->rev ^= 1;
-            u->rev = false;
-        }
+/*
 // LatexBegin
-        return u;
+  PTR rt;
+  Treap() { rt = NULL; }
+  ~Treap() {
+    clear(rt)
+  }
+  void clear(Node *u) {
+    if (!u) return ;
+    clear(u->l);
+    clear(u->r);
+    delete u;
+  }
+// LatexEnd
+*/
+// LatexBegin
+//>>>>>>>>>>ORIGIN
+  inline PTR _new(const Node &u) {
+//<<<<<<<<<<PERSISTENT
+    return PTR(new _ptrCntr<Node>(u));
+//===================
+// LatexEnd
+/*
+// LatexBegin
+    return new Node(u.v);
+// LatexEnd
+*/
+// LatexBegin
+//>>>>>>>>>>ORIGIN
+  }
+  inline int size(PTR &u) {
+    return u ? u->sz : 0;
+  }
+  inline PTR& pull(PTR &u) {
+    u->sz = 1 + size(push(u->l)) + size(push(u->r));
+    // pull function
+    return u;
+  }
+  inline PTR& push(PTR &u) {
+    if (!u) return u;
+    // push function
+    return u;
+  }
+  PNN split(PTR &T, int x) {
+    if (!T) return {(PTR)NULL, (PTR)NULL};
+//<<<<<<<<<<PRESISTENT
+    Sptr<Node> res = copy(T);
+    if (size(T->l) < x){
+      PNN tmp = split(T->r, x - 1 - size(T->l));
+      res->r = tmp.F;
+      return {pull(res), tmp.S};
+    } else {
+      PNN tmp = split(T->l, x);
+      res->l = tmp.S;
+      return {tmp.F, pull(res)};
     }
-    PNN split(Node *T, int x) {
-        if (!T) return {(Node*)NULL, (Node*)NULL};
-        if (size(push(T)->l) < x) {
-            PNN tmp = split(T->r, x - size(T->l) - 1);
-            T->r = tmp.F;
-            return {pull(T), tmp.S};
-        } else {
-            PNN tmp = split(T->l, x);
-            T->l = tmp.S;
-            return {tmp.F, pull(T)};
-        }
-    }
-    Node* merge(Node *T1, Node *T2) {
-        if (!T1 || !T2) return T1 ? T1 : T2;
-        if (rand() % (size(T1) + size(T2)) < size(T1)) {
-            T1->r = merge(push(T1)->r, T2);
-            return pull(T1);
-        } else {
-            T2->l = merge(T1, push(T2)->l);
-            return pull(T2);
-        }
+//====================
+// LatexEnd
+/*
+// LatexBegin
+    if (size(push(T)->l) < x) {
+      PNN tmp = split(T->r, x - size(T->l) - 1);
+      T->r = tmp.F;
+      return {pull(T), tmp.S};
+    } else {
+      PNN tmp = split(T->l, x);
+      T->l = tmp.S;
+      return {tmp.F, pull(T)};
     }
 // LatexEnd
-    void push_back(int v){
-        rt = merge(rt, new (ptr++) Node(v));
+*/
+// LatexBegin
+//>>>>>>>>>>ORIGIN
+  }
+  PTR merge(PTR &T1, PTR &T2) {
+    if (!T1 || !T2) return T1 ? T1 : T2;
+//<<<<<<<<<<PRESISTENT
+    Sptr<Node> res;
+    if (rand() % (size(T1) + size(T2)) < size(T1)){
+      res = copy(T1);
+      res->r = merge(T1->r, T2);
+    } else {
+      res = copy(T2);
+      res->l = merge(T1, T2->l);
     }
-    void addV(int a, int b, int k){
-        PNN tmp_1 = split(rt, b);
-        PNN tmp_2 = split(tmp_1.F, a-1);
-        tmp_2.S->add += k;
-        tmp_1.F = merge(tmp_2.F, tmp_2.S);
-        rt = merge(tmp_1.F, tmp_1.S);
+    return pull(res);
+//====================
+// LatexEnd
+/*
+// LatexBegin
+    if (rand() % (size(T1) + size(T2)) < size(T1)) {
+      T1->r = merge(push(T1)->r, T2);
+      return pull(T1);
+    } else {
+      T2->l = merge(T1, push(T2)->l);
+      return pull(T2);
     }
-    void insert(int a, int v){
-        PNN tmp = split(rt, a);
-        tmp.F = merge(tmp.F, new (ptr++) Node(v));
-        rt = merge(tmp.F, tmp.S);
+// LatexEnd
+*/
+// LatexBegin
+//>>>>>>>>>>ORIGIN
+  }
+// LatexEnd
+  void insert(char *s, int p){
+        verCnt++, ver[verCnt] = ver[verCnt-1];
+        PNN tmp = split(ver[verCnt], p);
+        for (int i = 0 ; s[i] ; i++){
+            Sptr<Node> target = _new(Node(s[i]));
+            tmp.F = merge(tmp.F, target);
+        }
+        ver[verCnt] = merge(tmp.F, tmp.S);
     }
-    void remove(int a){
-        PNN tmp_1 = split(rt, a);
-        PNN tmp_2 = split(tmp_1.F, a-1);
-        rt = merge(tmp_2.F, tmp_1.S);
+    void remove(int p, int c){
+        verCnt++, ver[verCnt] = ver[verCnt-1];
+        PNN tmp_1 = split(ver[verCnt], p-1);
+        PNN tmp_2 = split(tmp_1.S, c);
+        ver[verCnt] = merge(tmp_1.F, tmp_2.S);
     }
-    int queryMin(int a, int b){
-        PNN tmp_1 = split(rt, b);
-        PNN tmp_2 = split(tmp_1.F, a-1);
-        int res = tmp_2.S->minV;
-        tmp_1.F = merge(tmp_2.F, tmp_2.S);
-        rt = merge(tmp_1.F, tmp_1.S);
-        return res;
+    void query(int v, int p, int c){
+        PNN tmp_1 = split(ver[v], p-1);
+        PNN tmp_2 = split(tmp_1.S, c);
+        Print(tmp_2.F); cout << '\n';
     }
-    void reverse(int a, int b){
-        PNN tmp_1 = split(rt, b);
-        PNN tmp_2 = split(tmp_1.F, a-1);
-        tmp_2.S->rev ^= 1;
-        tmp_1.F = merge(tmp_2.F, tmp_2.S);
-        rt = merge(tmp_1.F, tmp_1.S);
+    void Print(){
+        for (int i = 0 ; i <= verCnt ; i++){
+            cout << "Treap " << i << ":\n";
+            Print(ver[i]);
+            cout << "\n\n";
+        }
     }
-    void revolve(int a, int b, int t){
-        PNN tmp_1 = split(rt, b);
-        PNN tmp_2 = split(tmp_1.F, a-1);
-        int len = b - a + 1;
-        t %= len;
-        PNN tmp_3 = split(tmp_2.S, len - t);
-        tmp_2.S = merge(tmp_3.S, tmp_3.F);
-        tmp_1.F = merge(tmp_2.F, tmp_2.S);
-        rt = merge(tmp_1.F, tmp_1.S);
+    void Print(PTR &u){
+        if (!u) return ;
+        Print(u->l);
+        cout << u->c;
+        if (u->c == 'c') d++;
+        Print(u->r);
     }
 // LatexBegin
 };
 // LatexEnd
-int main() {
-    ios_base::sync_with_stdio(false); cin.tie(0);
+const int MAXLEN = 1e6 + 5;
+int main(){
+    srand(time(NULL));
+    d = 0;
     Treap *sol = new Treap();
-    int n; cin >> n;
-    for (int i = 0 ; i < n ; i++){
-        int tmp; cin >> tmp;
-        sol->push_back(tmp);
-    }
-    int q; cin >> q;
-    while (q--){
-        char input[10]; cin >> input;
-        int a, b, k;
-        if (input[0] == 'A'){
-            cin >> a >> b >> k;
-            sol->addV(a, b, k);
-        }else if (input[0] == 'I'){
-            cin >> a >> k;
-            sol->insert(a, k);
-        }else if (input[0] == 'D'){
-            cin >> a;
-            sol->remove(a);
-        }else if (input[0] == 'M'){
-            cin >> a >> b;
-            cout << sol->queryMin(a, b) << '\n';
-        }else if (input[3] == 'E'){
-            cin >> a >> b;
-            sol->reverse(a, b);
-        }else if (input[3] == 'O'){
-            cin >> a >> b >> k;
-            sol->revolve(a, b, k);
-        }else continue;
+    int n; cin >> n; while (n--){
+        int op; cin >> op;
+        char input[MAXLEN];
+        int v, p, c;
+        switch (op){
+            case 1:
+                cin >> p >> input; p -= d;
+                sol->insert(input, p);
+                break;
+            case 2:
+                cin >> p >> c; p -= d, c -= d;
+                sol->remove(p, c);
+                break;
+            case 3:
+                cin >> v >> p >> c;
+                v -= d, p -= d, c -= d;
+                sol->query(v, p, c);
+                break;
+        }
     }
     delete sol;
 }
