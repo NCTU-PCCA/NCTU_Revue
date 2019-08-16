@@ -8,6 +8,10 @@ S DataStructure
     s unorderedMap  DataStructure/unordered_map.cpp -
     s pbdsTree      DataStructure/pbds_tree.cpp     -
     s pbdsHeap      DataStructure/pbds_heap.cpp     -
+    s Sptr          DataStructure/Sptr.cpp          -
     s Treap         DataStructure/Treap.cpp         test/DataStructure/Treap
+    s SegmentTree   DataStructure/SegmentTree.cpp   test/DataStructure/SegmentTree
     s SparseTable   DataStructure/SparseTable.cpp   test/DataStructure/SparseTable
     s BIT           DataStructure/BIT.cpp           test/DataStructure/BIT
+S Graph
+    s MMC           Graph/MMC.cpp                   test/Graph/MMC
