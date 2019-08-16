@@ -3,11 +3,8 @@ using namespace std;
 // LatexBegin
 struct BIT {
   vector<int> data; int n;
-  BIT(vector<int> &arr) {
-    n = (int)arr.size();
+  BIT(int n) : n(n) {
     data.clear(); data.resize(n + 1, 0);
-    for (int i = 0 ; i < n ; i++)
-      modify(i, arr[i]);
   }
   int lowbit(int x) { return x & -x; }
   int query(int x) { x++;
@@ -25,10 +22,11 @@ int main() {
   int t, kase = 0; cin >> t; while (t--){
     cout << "Case " << ++kase << ":\n";
     int n; cin >> n;
-    vector<int> data(n);
-    for (auto &v : data)
-      cin >> v;
-    BIT *sol = new BIT(data);
+    BIT *sol = new BIT(n);
+    for (int i = 0 ; i < n ; i++) {
+      int v; cin >> v;
+      sol->modify(i, v);
+    }
     string op; while (cin >> op){
       int a, b;
       if (op[0] == 'E') break;

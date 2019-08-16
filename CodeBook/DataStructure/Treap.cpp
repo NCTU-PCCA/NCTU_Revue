@@ -43,33 +43,20 @@ struct Treap {
   struct Node {
     PTR l; PTR r;
     int sz; char c;
-// LatexEnd
-// LatexBegin
     Node (char c = 0) : c(c), l(NULL), r(NULL) {
       sz = 1;
     }
   };
+  vector<PTR> rt;
+  Treap() { rt.resize(rt.size() + 1, NULL); }
 //<<<<<<<<<<PRESISTENT
-  PTR ver[MAXVER];
-  int verCnt;
-  Treap() { verCnt = 0; }
-  inline Sptr<Node> copy(Sptr<Node> &u){
-    return _new(*u);
-  }
 //====================
 // LatexEnd
 /*
 // LatexBegin
-  PTR rt;
-  Treap() { rt = NULL; }
-  ~Treap() {
-    clear(rt)
-  }
-  void clear(Node *u) {
-    if (!u) return ;
-    clear(u->l);
-    clear(u->r);
-    delete u;
+  ~Treap() { clear(rt.back()) }
+  void clear(PTR u) { 
+    if (u) clear(u->l), clear(u->r), delete u;
   }
 // LatexEnd
 */
@@ -104,7 +91,7 @@ struct Treap {
   PNN split(PTR &T, int x) {
     if (!T) return {(PTR)NULL, (PTR)NULL};
 //<<<<<<<<<<PRESISTENT
-    Sptr<Node> res = copy(T);
+    Sptr<Node> res = _new(*T);
     if (size(T->l) < x){
       PNN tmp = split(T->r, x - 1 - size(T->l));
       res->r = tmp.F;
@@ -137,10 +124,10 @@ struct Treap {
 //<<<<<<<<<<PRESISTENT
     Sptr<Node> res;
     if (rand() % (size(T1) + size(T2)) < size(T1)){
-      res = copy(T1);
+      res = _new(*T1);
       res->r = merge(T1->r, T2);
     } else {
-      res = copy(T2);
+      res = _new(*T2);
       res->l = merge(T1, T2->l);
     }
     return pull(res);
@@ -161,32 +148,25 @@ struct Treap {
 //>>>>>>>>>>ORIGIN
   }
 // LatexEnd
-  void insert(char *s, int p){
-        verCnt++, ver[verCnt] = ver[verCnt-1];
-        PNN tmp = split(ver[verCnt], p);
+    void insert(char *s, int p){
+        rt.resize(rt.size() + 1, rt.back());
+        PNN tmp = split(rt.back(), p);
         for (int i = 0 ; s[i] ; i++){
             Sptr<Node> target = _new(Node(s[i]));
             tmp.F = merge(tmp.F, target);
         }
-        ver[verCnt] = merge(tmp.F, tmp.S);
+        rt.back() = merge(tmp.F, tmp.S);
     }
     void remove(int p, int c){
-        verCnt++, ver[verCnt] = ver[verCnt-1];
-        PNN tmp_1 = split(ver[verCnt], p-1);
+        rt.resize(rt.size() + 1, rt.back());
+        PNN tmp_1 = split(rt.back(), p-1);
         PNN tmp_2 = split(tmp_1.S, c);
-        ver[verCnt] = merge(tmp_1.F, tmp_2.S);
+        rt.back() = merge(tmp_1.F, tmp_2.S);
     }
     void query(int v, int p, int c){
-        PNN tmp_1 = split(ver[v], p-1);
+        PNN tmp_1 = split(rt[v], p-1);
         PNN tmp_2 = split(tmp_1.S, c);
         Print(tmp_2.F); cout << '\n';
-    }
-    void Print(){
-        for (int i = 0 ; i <= verCnt ; i++){
-            cout << "Treap " << i << ":\n";
-            Print(ver[i]);
-            cout << "\n\n";
-        }
     }
     void Print(PTR &u){
         if (!u) return ;
