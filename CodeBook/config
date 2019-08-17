@@ -15,3 +15,4 @@ S DataStructure
     s BIT           DataStructure/BIT.cpp           test/DataStructure/BIT
 S Graph
     s MMC           Graph/MMC.cpp                   test/Graph/MMC
+    s Dijkstra      Graph/Dijkstra.cpp              test/Graph/Dijkstra
