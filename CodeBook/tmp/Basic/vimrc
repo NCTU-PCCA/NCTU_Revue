@@ -1,6 +1,0 @@
-set nu ai si cin ts=4 sw=4 sts=4 mouse=a expandtab
-syn on
-imap {<CR> {<CR>}<Esc>ko
-map <F5> :w<LF>:!g++ -O2 -std=c++11 % && echo "----Start----" && ./a.out<LF>
-map <F6> :w<LF>:!g++ -O2 -std=c++11 % && echo "----Start----" && time ./a.out < input.in<LF>
-map <F9> :tabe %.in<LF>

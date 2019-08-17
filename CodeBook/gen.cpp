@@ -148,7 +148,6 @@ void genCodeBook(CodeBook &codebook) {
             out << "\t\\subsection{" << _s.name << "}\n";
             out << "\t\t\\lstinputlisting [language=c++] { tmp/" << _s.sour_path << "}\n";
         }
-        cout << '\n';
     }
 }
 int main() {
@@ -162,6 +161,9 @@ int main() {
     cout << INFO << "Generate CodeBook" << END << '\n';
     genCodeBook(codebook);
     cmd("xelatex codebook.tex");
+    cmd("xelatex codebook.tex");
     cmd("rm codebook.aux codebook.log codebook.toc -f > /dev/null");
+    cmd("rm -rf tmp");
+    cmd("rm content.tex");
     cout << CORRECT << "Generate CodeBook Done\n" << END;
 }
