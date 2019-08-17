@@ -27,15 +27,15 @@ struct Sptr{
 };
 // LatexBegin
 //<<<<<<<<<<PRESISTENT
+#define PTR Sptr<Node>
+//=====================
 // LatexEnd
 /*
 // LatexBegin
-#define PTR Sptr<Node>
+#define PTR Node*
 // LatexEnd
 */
 // LatexBegin
-//=====================
-#define PTR Node*
 //>>>>>>>>>>ORIGIN
 struct SegmentTree {
   struct Node {
@@ -45,11 +45,17 @@ struct SegmentTree {
   };
 //<<<<<<<<<<PRESISTENT
 //=====================
+// LatexEnd
+/*
+// LatexBegin
   PTR buf; PTR ptr;
   ~SegmentTree(){ clear(rt.back()); delete []buf; }
   void clear(Node *u){
     if (u) clear(u->l), clear(u->r), delete u;
   }
+// LatexEnd
+*/
+// LatexBegin
 //>>>>>>>>>>ORIGIN
   vector<PTR> rt; 
   SegmentTree (int n) {
@@ -57,20 +63,26 @@ struct SegmentTree {
     rt.back() = build(0, n);
  //<<<<<<<<<<PRESISTENT
 //=====================
+// LatexEnd
+/*
+// LatexBegin
     buf = new Node[__lg(n) * 4 + 5];
+// LatexEnd
+*/
+// LatexBegin
 //>>>>>>>>>>ORIGIN
   }
   inline PTR _new(const Node &u) {
 //<<<<<<<<<<PERSISTENT
+    return PTR(new _ptrCntr <Node>(u));
+//===================
 // LatexEnd
 /*
 // LatexBegin
-    return PTR(new _ptrCntr <Node>(u));
+    return new Node(u.L, u.R);
 // LatexEnd
 */
 // LatexBegin
-//===================
-    return new Node(u.L, u.R);
 //>>>>>>>>>>ORIGIN
   }
   PTR build(int L, int R) {
@@ -98,52 +110,52 @@ struct SegmentTree {
   }
   PTR query(int qL, int qR, PTR u = NULL) {
 //<<<<<<<<<<PRESISTENT
+    if (!u) u = rt.back();
+//=====================
 // LatexEnd
 /*
 // LatexBegin
-    if (!u) u = rt.back();
-// LatexEnd
-*/
-// LatexBegin
-//=====================
     if (!u) u = rt.back(), ptr = buf;
 //>>>>>>>>>>ORIGIN
     if (u->R <= qL || qR <= u->L) return NULL;
     if (qL <= u->L && u->R <= qR) return u;
     push(u);
-//<<<<<<<<<<PRESISTENT
-// LatexEnd
-/*
-// LatexBegin
-    PTR ret = _new(Node(qL, qR));
-    return pull(ret, query(qL, qR, u->l), query(qL, qR, u->r));
 // LatexEnd
 */
 // LatexBegin
+//<<<<<<<<<<PRESISTENT
+    PTR ret = _new(Node(qL, qR));
+    return pull(ret, query(qL, qR, u->l), query(qL, qR, u->r));
 //=====================
+// LatexEnd
+/*
+// LatexBegin
     return pull(ptr++, query(qL, qR, u->l), query(qL, qR, u->r));
+// LatexEnd
+*/
+// LatexBegin
 //>>>>>>>>>>ORIGIN
   }
   PTR modify(int mL, int mR, int v, PTR u = NULL) {
     if (!u) u = rt.back();
     if (u->R <= mL || mR <= u->L) return u;
 //<<<<<<<<<<PRESISTENT
-// LatexEnd
-/*
-// LatexBegin
     PTR ret = _new(*u);
     if (mL <= u->L && u->R <= mR) {
       // tag;
+// LatexEnd
+      ret->v += v;
+// LatexBegin
       return ret;
     }
     push(u);
-    _u->l = modify(mL, mR, v, u->l);
-    _u->r = modify(mL, mR, v, u->r);
-    return pull(_u);
-// LatexEnd
-*/
-// LatexBegin
+    ret->l = modify(mL, mR, v, u->l);
+    ret->r = modify(mL, mR, v, u->r);
+    return pull(ret);
 //=====================
+// LatexEnd
+/*
+// LatexBegin
     if (mL <= u->L && u->R <= mR) {
       // modify function
 // LatexEnd
@@ -155,37 +167,51 @@ struct SegmentTree {
     modify(mL, mR, v, u->l);
     modify(mL, mR, v, u->r);
     return pull(u);
+// LatexEnd
+*/
+// LatexBegin
 //>>>>>>>>>>ORIGIN
   }
+// LatexEnd
+    int solve(Sptr<Node> &l, Sptr<Node> &r, int k){
+        if (r->R - r->L == 1) return r->L;
+        if (r->l->v - l->l->v < k)
+            return solve(l->r, r->r, k - (r->l->v - l->l->v));
+        else
+            return solve(l->l, r->l, k);
+    }
+    void setting(int pos){
+        rt.resize(rt.size() + 1, rt.back());
+        rt.back() = modify(pos, pos + 1, 1, rt.back());
+    }
+    int solve(int qL, int qR, int k){
+        return solve(rt[qL], rt[qR], k);
+    }
+// LatexBegin
 };
 // LatexEnd
 int main() {
-  ios_base::sync_with_stdio(false); cin.tie(0);
-  int t, kase = 0; cin >> t; while (t--){
-    cout << "Case " << ++kase << ":\n";
-    int n; cin >> n;
+    ios_base::sync_with_stdio(false); cin.tie(0);
+    int n, q; cin >> n >> q;
     SegmentTree *sol = new SegmentTree(n);
+    vector<int> arr, arrSort;
     for (int i = 0 ; i < n ; i++) {
-      int v; cin >> v;
-      sol->modify(i, i + 1, v);
+        int v; cin >> v;
+        arr.push_back(v);
+        arrSort.push_back(v);
     }
-    char op[8];
-    while (cin >> op){
-      if (op[0] == 'E') break;
-      int a, b, v;
-      if (op[0] == 'A'){
-        cin >> a >> v;
-        sol->modify(a-1, a, v);
-      }
-      if (op[0] == 'S'){
-        cin >> a >> v;
-        sol->modify(a-1, a, -v);
-      }
-      if (op[0] == 'Q'){
-        cin >> a >> b;
-        cout << sol->query(a-1, b)->v << '\n';
-      }
+    sort(arrSort.begin(), arrSort.end());
+    vector<int> target;
+    target.push_back(arrSort[0]);
+    for (int i = 1 ; i < n ; i++)
+        if (arrSort[i] != arrSort[i-1])
+            target.push_back(arrSort[i]);
+    for (int i = 0 ; i < n ; i++)
+        sol->setting(lower_bound(target.begin(), target.end(), arr[i]) - target.begin());
+    while (q--){
+        int a, b, k; cin >> a >> b >> k;
+        a--;
+        cout << target[sol->solve(a, b, k)] << '\n';
     }
     delete sol;
-  }
 }

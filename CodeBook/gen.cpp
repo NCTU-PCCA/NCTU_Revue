@@ -128,25 +128,27 @@ void testAll(CodeBook &codebook) {
     }
 }
 void genCodeBook(CodeBook &codebook) {
+    cmd("mkdir tmp");
     ofstream out("content.tex");
     for (auto &_S : codebook) {
+        cmd("mkdir tmp/" + _S.name);
         out << "\\section{" << _S.name << "}\n";
         for (auto &_s : _S) {
-            out << "\\subsection{" << _s.name << "}\n";
-            out << "\\begin{lstlisting}\n";
+            ofstream output("tmp/" + _s.sour_path);
             ifstream code(_s.sour_path);
-            string str;
-            bool write = false;
+            string str; bool write = false;
             while (getline(code, str)) {
                 if (str == "// LatexEnd")
                     write = false;
                 if (write)
-                    out << str << '\n';
+                    output << str << '\n';
                 if (str == "// LatexBegin")
                     write = true;
             }
-            out << "\\end{lstlisting}\n";
+            out << "\t\\subsection{" << _s.name << "}\n";
+            out << "\t\t\\lstinputlisting [language=c++] { tmp/" << _s.sour_path << "}\n";
         }
+        cout << '\n';
     }
 }
 int main() {
@@ -160,6 +162,6 @@ int main() {
     cout << INFO << "Generate CodeBook" << END << '\n';
     genCodeBook(codebook);
     cmd("xelatex codebook.tex");
-    cmd("rm codebook.aux codebook.log codebook.toc content.tex -f > /dev/null");
+    cmd("rm codebook.aux codebook.log codebook.toc -f > /dev/null");
     cout << CORRECT << "Generate CodeBook Done\n" << END;
 }
