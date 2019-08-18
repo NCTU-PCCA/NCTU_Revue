@@ -38,8 +38,7 @@ struct Sptr{
 // LatexBegin
 //>>>>>>>>>>ORIGIN
 struct SegmentTree {
-  struct Node {
-    int L, R, v; PTR l; PTR r;
+  struct Node { int L, R, v; PTR l; PTR r;
     Node (int L = 0, int R = 0) : v(0),
       l(NULL), r(NULL), L(L), R(R) {}
   };
@@ -87,11 +86,9 @@ struct SegmentTree {
   }
   PTR build(int L, int R) {
     PTR u = _new(Node(L, R));
-    if (u->R - u->L == 1)
-      return u;
+    if (u->R - u->L == 1) return u;
     int M = (R + L) >> 1;
-    u->l = build(L, M);
-    u->r = build(M, R);
+    u->l = build(L, M); u->r = build(M, R);
     return pull(u);
   }
   PTR pull(PTR u, PTR l, PTR r) {
@@ -164,8 +161,7 @@ struct SegmentTree {
       return u;
     }
     push(u);
-    modify(mL, mR, v, u->l);
-    modify(mL, mR, v, u->r);
+    modify(mL, mR, v, u->l); modify(mL, mR, v, u->r);
     return pull(u);
 // LatexEnd
 */

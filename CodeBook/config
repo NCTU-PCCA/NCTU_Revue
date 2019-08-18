@@ -15,4 +15,6 @@ S DataStructure
     s BIT           DataStructure/BIT.cpp           test/DataStructure/BIT
 S Graph
     s MMC           Graph/MMC.cpp                   test/Graph/MMC
+    s CutBridge     Graph/CutBridge.cpp             test/Graph/CutBridge
     s Dijkstra      Graph/Dijkstra.cpp              test/Graph/Dijkstra
+    s Blossom       Graph/Blossom.cpp               test/Graph/Blossom

@@ -3,8 +3,7 @@ using namespace std;
 typedef long long LL;
 const LL INF = 0x3f3f3f3f3f3f3f3fLL;
 // LatexBegin
-typedef struct Edge {
-  int v; LL w;
+typedef struct Edge { int v; LL w;
   bool operator > (const Edge &b) const {
     return w > b.w;
   }

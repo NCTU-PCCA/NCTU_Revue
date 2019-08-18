@@ -20,8 +20,7 @@ struct SparseTable{
     }
   }
   int query(int l, int r){
-    int h = __lg(r - l);
-    int len = 1 << h;
+    int h = __lg(r - l), len = 1 << h;
     return op(data[h][l], data[h][r-len]);
   }
 };

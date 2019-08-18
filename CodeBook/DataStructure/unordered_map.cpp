@@ -1,7 +1,5 @@
 // LatexBegin
-struct Key {
-  int F, S;
-  Key() {}
+struct Key { int F, S; Key() {}
   Key(int _x, int _y) : F(_x), S(_y) {}
   bool operator == (const Key &b) const {
     return tie(F, S) == tie(b.F, b.S);

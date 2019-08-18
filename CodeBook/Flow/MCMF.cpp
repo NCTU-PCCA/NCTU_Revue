@@ -33,7 +33,8 @@ struct Graph {
   }
   Node *s, *t;
   bool SPFA() {
-    for (int i = 0 ; i < V ; i++) node[i]->d = INF, node[i]->inq = false;
+    for (int i = 0 ; i < V ; i++) 
+      node[i]->d = INF, node[i]->inq = false;
     queue<Node*> q; q.push(s); s->inq = true;
     s->d = 0, s->pa = NULL, s->a = INF;
     while (q.size()) {
