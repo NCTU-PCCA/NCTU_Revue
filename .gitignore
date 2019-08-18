@@ -1,5 +1,4 @@
 *.out
 *.in
-test*
 def.cpp
 content.tex
