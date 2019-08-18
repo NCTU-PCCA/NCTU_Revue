@@ -21,3 +21,4 @@ S Graph
 S Geometry
     s Point         Geometry/Point.cpp              test/Geometry/Point
     s Line          Geometry/Line.cpp               test/Geometry/Line
+    s Segment       Geometry/Segment.cpp            test/Geometry/Segment
