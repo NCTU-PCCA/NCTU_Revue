@@ -123,7 +123,16 @@ void testAll(CodeBook &codebook) {
             if (_s.test_path == "-")
                 continue;
             cout << "--" << _s.name << '\n';
-            testOne(_s);
+            cmd("git add -N " + _s.sour_path);
+            cmd("git diff " + _s.sour_path + " | wc -l > result");
+            ifstream result("result");
+            bool chg; result >> chg;
+            cmd("rm result");
+            if (chg)
+                testOne(_s);
+            else
+                cout << "----" << INFO << "No Change.\n" << END;
+
         }
     }
 }
