@@ -18,3 +18,6 @@ S Graph
     s CutBridge     Graph/CutBridge.cpp             test/Graph/CutBridge
     s Dijkstra      Graph/Dijkstra.cpp              test/Graph/Dijkstra
     s Blossom       Graph/Blossom.cpp               test/Graph/Blossom
+S Geometry
+    s Point         Geometry/Point.cpp              test/Geometry/Point
+    s Line          Geometry/Line.cpp               test/Geometry/Line
