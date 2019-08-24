@@ -18,29 +18,31 @@ bool isPathExist(const string &s) {
     struct stat buffer;
     return (stat (s.c_str(), &buffer) == 0);
 }
-void checkTestStructure(const string &s, int line_cnt, string &input) {
-    if (s == "-") return ;
-    if (!isPathExist(s))
+void checkTestStructure(const string &test_path, const string &test_sour_path, int line_cnt, string &input) {
+    if (test_path == "-") return ;
+    if (!isPathExist(test_path))
         throwParserError("Config Test Folder input folder Not Found", line_cnt, input);
-    if (!isPathExist(s + "/input"))
+    if (!isPathExist(test_path + "/input"))
         throwParserError("Config Test Folder Structure input folder Not Found", line_cnt, input);
-    if (!isPathExist(s + "/output"))
+    if (!isPathExist(test_path + "/output"))
         throwParserError("Config Test Folder Structure output folder Not Found", line_cnt, input);
-    if (!isPathExist(s + "/answer"))
+    if (!isPathExist(test_path + "/answer"))
         throwParserError("Config Test Folder Structure answer folder Not Found", line_cnt, input);
+    if (test_sour_path != "-" && !isPathExist(test_sour_path))
+        throwParserError("Config Test Source code Not Found", line_cnt, input);
     int in_cnt = 0;
     int ans_cnt = 0;
     while (1) {
         stringstream ss; ss << in_cnt + 1;
         string str; ss >> str;
-        if (!isPathExist(s + "/input/" + str + ".in"))
+        if (!isPathExist(test_path + "/input/" + str + ".in"))
             break;
         in_cnt++;
     }
     while (1) {
         stringstream ss; ss << ans_cnt + 1;
         string str; ss >> str;
-        if (!isPathExist(s + "/answer/" + str + ".ans"))
+        if (!isPathExist(test_path + "/answer/" + str + ".ans"))
             break;
         ans_cnt++;
     }
@@ -53,6 +55,7 @@ struct s {
     string name;
     string sour_path;
     string test_path;
+    string test_sour_path;
 };
 struct S : vector<s> {
     string name;
@@ -64,7 +67,7 @@ struct CodeBook : vector<S> {
         string input; while (getline(config, input)) {
             line_cnt++; stringstream ss; ss << input;
             char type; ss >> type;
-            string name, sour_path, test_path;
+            string name, sour_path, test_path, test_sour_path;
             switch (type) {
                 case 'S':
                     ss >> name;
@@ -73,13 +76,13 @@ struct CodeBook : vector<S> {
                     push_back(S(name));
                     break;
                 case 's':
-                    ss >> name >> sour_path >> test_path;
+                    ss >> name >> sour_path >> test_path >> test_sour_path;
                     if (name == "")
                         throwParserError("Config Name Error", line_cnt, input);
                     if (!isPathExist(sour_path))
                         throwParserError("Config Source File Not Found Error", line_cnt, input);
-                    checkTestStructure(test_path, line_cnt, input);
-                    back().push_back({name, sour_path, test_path});
+                    checkTestStructure(test_path, test_sour_path, line_cnt, input);
+                    back().push_back({name, sour_path, test_path, test_sour_path});
                     break;
                 default:
                     throwParserError("Config Type Error", line_cnt, input);
@@ -91,8 +94,8 @@ int cmd(const string &s) {
     return system(s.c_str());
 }
 void testOne(s &_s) {
-    if (cmd("g++ -std=c++17 " + _s.sour_path + " -o test.out"))
-        throwTestError("Compile " + _s.sour_path + " Error");
+    if (cmd("g++ -std=c++17 " + _s.test_sour_path + " -o test.out"))
+        throwTestError("Compile " + _s.test_sour_path + " Error");
     int cnt = 0;
     while (1) {
         stringstream ss; ss << cnt + 1;

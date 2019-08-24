@@ -1,24 +1,24 @@
 S Basic
-    s vimrc         Basic/vimrc                     -
-    s int128        Basic/__int128.cpp              test/Basic/__int128
+    s vimrc                 Basic/vimrc                         -                                   -
+    s int128                Basic/__int128.cpp                  test/Basic/__int128                 -
 S Flow
-    s Dinic         Flow/Dinic.cpp                  test/Flow/Dinic
-    s MCMF          Flow/MCMF.cpp                   test/Flow/MCMF
+    s Dinic                 Flow/Dinic.cpp                      test/Flow/Dinic                     -
+    s MCMF                  Flow/MCMF.cpp                       test/Flow/MCMF                      -
 S DataStructure
-    s unorderedMap  DataStructure/unordered_map.cpp -
-    s pbdsTree      DataStructure/pbds_tree.cpp     -
-    s pbdsHeap      DataStructure/pbds_heap.cpp     -
-    s Sptr          DataStructure/Sptr.cpp          -
-    s Treap         DataStructure/Treap.cpp         test/DataStructure/Treap
-    s SegmentTree   DataStructure/SegmentTree.cpp   test/DataStructure/SegmentTree
-    s SparseTable   DataStructure/SparseTable.cpp   test/DataStructure/SparseTable
-    s BIT           DataStructure/BIT.cpp           test/DataStructure/BIT
+    s unorderedMap          DataStructure/unordered_map.cpp     -                                   -
+    s pbdsTree              DataStructure/pbds_tree.cpp         -                                   -
+    s pbdsHeap              DataStructure/pbds_heap.cpp         -                                   -
+    s Sptr                  DataStructure/Sptr.cpp              -                                   -
+    s Treap                 DataStructure/Treap.cpp             test/DataStructure/Treap            -
+    s SegmentTree           DataStructure/SegmentTree.cpp       test/DataStructure/SegmentTree      -
+    s SparseTable           DataStructure/SparseTable.cpp       test/DataStructure/SparseTable      -
+    s BIT                   DataStructure/BIT.cpp               test/DataStructure/BIT              -
 S Graph
-    s MMC           Graph/MMC.cpp                   test/Graph/MMC
-    s CutBridge     Graph/CutBridge.cpp             test/Graph/CutBridge
-    s Dijkstra      Graph/Dijkstra.cpp              test/Graph/Dijkstra
-    s Blossom       Graph/Blossom.cpp               test/Graph/Blossom
+    s MMC                   Graph/MMC.cpp                       test/Graph/MMC                      -
+    s CutBridge             Graph/CutBridge.cpp                 test/Graph/CutBridge                -
+    s Dijkstra              Graph/Dijkstra.cpp                  test/Graph/Dijkstra                 -
+    s Blossom               Graph/Blossom.cpp                   test/Graph/Blossom                  -
 S Geometry
-    s Point         Geometry/Point.cpp              test/Geometry/Point
-    s Line          Geometry/Line.cpp               test/Geometry/Line
-    s Segment       Geometry/Segment.cpp            test/Geometry/Segment
+    s Point                 Geometry/Point.cpp                  test/Geometry/Point                 test/Geometry/Point/test.cpp
+    s Line                  Geometry/Line.cpp                   test/Geometry/Line                  test/Geometry/Line/test.cpp
+    s Segment               Geometry/Segment.cpp                test/Geometry/Segment               test/Geometry/Segment/test.cpp
