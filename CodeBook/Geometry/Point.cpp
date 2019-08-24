@@ -11,6 +11,7 @@ typedef struct P { T x, y;
   P O-CP { return P(x - p.x, y - p.y); }
   T O*CP { return x * p.x + y * p.y; }
   T O%CP { return x * p.y - y * p.x; }
+  T O<CP { return (x < p.x) || ((x == p.x) && (y < p.y)); }
   P O*(const T c) const { return P(x * c, y * c); }
   P O/(const T c) const { return P(x / c, y / c); }
 } V;

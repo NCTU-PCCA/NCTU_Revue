@@ -7,7 +7,7 @@ int main() {
     int n; cin >> n; vector<P> data(n);
     for (auto &p : data)
       cin >> p.x >> p.y;
-    sort(data.begin(), data.end(), cmpPair);
+    sort(data.begin(), data.end());
     pair<P, P> ans = closetPair(data);
     cout << fixed << setprecision(10) << dist(ans.F, ans.S) << '\n';
   }
