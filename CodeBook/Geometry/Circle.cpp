@@ -2,6 +2,7 @@
 #define CIRCLE_H
 #include <bits/stdc++.h>
 #include "Point.cpp"
+#include "Line.cpp"
 using namespace std;
 
 // LatexBegin
@@ -42,6 +43,24 @@ pair<P, T> SmallestEnclosingCircle(vector<P> & points) {
     }
   }
   return pair<P, T>(ret, r); // center, radius
+}
+
+vector<P> CircleLineIntersection(P c, T r, L l) {
+  vector<P> ret;
+  P b = l.p2 - l.p1;
+  P a = l.p1 - c;
+
+  P c1 = ProjectPointLine(c, l);
+  T dis = dist2(c, c1);
+  if (dis > r * r) return ret;
+  if (fabs(dis - r * r) < EPS) {
+      ret.push_back(c1);
+      return ret;
+  }
+  T x = (r * r - dis);
+  ret.push_back(c1 + b * sqrt(x / (b * b)));
+  ret.push_back(c1 - b * sqrt(x / (b * b)));
+  return ret;
 }
 // LatexEnd
 #endif
