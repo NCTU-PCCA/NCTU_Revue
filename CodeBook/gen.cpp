@@ -77,6 +77,7 @@ struct CodeBook : vector<S> {
                     break;
                 case 's':
                     ss >> name >> sour_path >> test_path >> test_sour_path;
+                    if (test_sour_path == "-") test_sour_path = sour_path;
                     if (name == "")
                         throwParserError("Config Name Error", line_cnt, input);
                     if (!isPathExist(sour_path))
