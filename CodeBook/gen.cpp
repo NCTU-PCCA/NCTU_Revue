@@ -8,11 +8,11 @@
 using namespace std;
 void throwParserError(const string &msg, int line_cnt, string &input) {
     cerr << ERROR << LINE << msg << ": " << input << '\n' << END;
-    exit(0);
+    exit(1);
 }
 void throwTestError(const string &msg) {
     cerr << ERROR << msg << '\n' << END;
-    exit(0);
+    exit(1);
 }
 bool isPathExist(const string &s) {
     struct stat buffer;
