@@ -15,7 +15,7 @@ T dist(L l1, L l2) {
   if (v1 % v2 != 0) return 0;
   return dist(l1.p1, l2);
 }
-int dir(P p, L l) { 
+T dir(P p, L l) { 
   return (l.p2 - l.p1) % (p - l.p1);
 }
 bool parallel(L l1, L l2) {
@@ -25,6 +25,11 @@ int intersect(L l1, L l2) {
   // -1: infinity, 1: one, 0: none
   return parallel(l1, l2) ? 
       (abs(dir(l1.p2, l2)) <= EPS ? -1 : 0) : 1;
+}
+
+P ProjectPointLine(P p, L l) {
+  // assume l.p1 != l.p2
+  return l.p1 + (l.p2 - l.p1) * ((p - l.p1) * (l.p2 - l.p1)) / ((l.p2 - l.p1) * (l.p2 - l.p1));
 }
 // LatexEnd
 #endif
