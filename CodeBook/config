@@ -23,3 +23,4 @@ S Geometry
     s Line                  Geometry/Line.cpp                   test/Geometry/Line                  test/Geometry/Line/test.cpp
     s Segment               Geometry/Segment.cpp                test/Geometry/Segment               test/Geometry/Segment/test.cpp
     s Circle                Geometry/Circle.cpp                 test/Geometry/Circle                test/Geometry/Circle/test.cpp
+    s Convex                Geometry/Convex.cpp                 test/Geometry/Convex                test/Geometry/Convex/test.cpp

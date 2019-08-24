@@ -135,7 +135,6 @@ void testAll(CodeBook &codebook) {
                 testOne(_s);
             else
                 cout << "----" << INFO << "No Change.\n" << END;
-
         }
     }
 }

@@ -19,12 +19,12 @@ int dir(P p, L l) {
   return (l.p2 - l.p1) % (p - l.p1);
 }
 bool parallel(L l1, L l2) {
-  return (l1.p1 - l1.p2) % (l2.p1 - l2.p2) == 0;
+  return abs((l1.p1 - l1.p2) % (l2.p1 - l2.p2)) <= EPS ;
 }
 int intersect(L l1, L l2) { 
   // -1: infinity, 1: one, 0: none
   return parallel(l1, l2) ? 
-      (dir(l1.p2, l2) == 0 ? -1 : 0) : 1;
+      (abs(dir(l1.p2, l2)) <= EPS ? -1 : 0) : 1;
 }
 // LatexEnd
 #endif
