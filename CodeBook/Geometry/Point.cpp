@@ -1,6 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
-typedef long long LL;
+#ifndef POINT_H
+#define POINT_H
 // LatexBegin
 using T = double;
 #define O operator
@@ -19,13 +18,4 @@ T leng(V a) { return sqrt(leng2(a)); }
 T dist2(P a, P b) { return leng2(a - b); }
 T dist(P a, P b) { return sqrt(dist2(a, b)); }
 // LatexEnd
-int main() {
-  ios_base::sync_with_stdio(false); cin.tie(0);
-  P a, b; cin >> a.x >> a.y >> b.x >> b.y;
-  cout << fixed << setprecision(10) << (a + b).x << ' ' << (a + b).y << '\n';
-  cout << fixed << setprecision(10) << (a - b).x << ' ' << (a - b).y << '\n';
-  cout << fixed << setprecision(10) << a * b << '\n';
-  cout << fixed << setprecision(10) << a % b << '\n';
-  cout << fixed << setprecision(10) << leng(a) << '\n';
-  cout << fixed << setprecision(10) << dist(a, b) << '\n';
-}
+#endif
