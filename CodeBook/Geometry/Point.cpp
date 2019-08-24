@@ -2,6 +2,7 @@
 #define POINT_H
 // LatexBegin
 using T = double;
+const T EPS = 1e-8;
 #define O operator
 #define CP (const P &p) const 
 typedef struct P { T x, y;
