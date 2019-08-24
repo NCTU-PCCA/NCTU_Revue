@@ -3,6 +3,7 @@
 #include <bits/stdc++.h>
 #include "Point.cpp"
 using namespace std;
+// LatexBegin
 bool convexCmp(const P& l, const P& r) {
   return (l.x < r.x) || ((l.x == r.x) && (l.y < r.y));
 }
@@ -28,4 +29,5 @@ vector<P> convexHull(vector<P> &ps) {
   for (auto &p : stk) ret.push_back(p);
   return ret;
 }
+// LatexEnd
 #endif
