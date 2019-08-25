@@ -40,6 +40,21 @@ int main() {
                 cout << '\n';
             }
         }
+    } else if (type == 3) {
+        int T; cin >> T; while (T --) {
+            P c1, c2; double r1, r2;
+            cin >> c1.x >> c1.y >> r1;
+            int q; cin >> q;
+            while (q --) {
+                cin >> c2.x >> c2.y >> r2;
+                vector<P> ans = CircleCircleIntersection(c1, c2, r1, r2);
+                sort(ans.begin(), ans.end());
+                for (int i = 0; i < ans.size(); i ++) {
+                    cout << fixed << setprecision(6) << ans[i].x + EPS << ' ' << ans[i].y + EPS << ' ';
+                }
+                cout << '\n';
+            }
+        }
     }
 }
 
