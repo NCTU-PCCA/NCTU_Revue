@@ -164,6 +164,8 @@ void checkLatexLabel(CodeBook &codebook) {
             }
             if (!write)
                 throwCheckLatexLabelError(_s.sour_path, 0, "Latex Label Not Found");
+            if (!write)
+                throwCheckLatexLabelError(_s.sour_path, 0, "Number of Latex Label(// LatexBegin & // LatexEnd) not Math");
         }
     }
 }
