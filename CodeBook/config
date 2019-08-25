@@ -31,3 +31,4 @@ S String
     s KMP                   String/KMP.cpp                      test/String/KMP                     -
     s Z                     String/Z.cpp                        test/String/Z                       -
     s MinRotate             String/MinRotate.cpp                test/String/MinRotate               -
+    s Eertree               String/Eertree.cpp                  test/String/Eertree                 -
