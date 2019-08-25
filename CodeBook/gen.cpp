@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
     cout << INFO << "Config Parser\n" << END;
     CodeBook codebook(config);
     cout << CORRECT << "Config Parser Correct\n" << END;
-    if (op == "genCodeBook" || op == "test") {
+    if (op == "genCodeBook" || op == "test" || op == "check") {
         cout << INFO << "Test Template\n" << END;
         testAll(codebook, op != "test");
         cout << CORRECT << "Test Template Correct\n" << END;
