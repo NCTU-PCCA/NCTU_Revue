@@ -128,7 +128,7 @@ void testAll(CodeBook &codebook, bool gitDiffCheck = true) {
                 continue;
             cout << "--" << _s.name << '\n';
             cmd("git add -N " + _s.sour_path);
-            cmd("git diff --staged " + _s.sour_path + " | wc -l > result");
+            cmd("git diff HEAD " + _s.sour_path + " | wc -l > result");
             ifstream result("result");
             bool chg; result >> chg;
             cmd("rm result");
@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
     cout << INFO << "Config Parser\n" << END;
     CodeBook codebook(config);
     cout << CORRECT << "Config Parser Correct\n" << END;
-    if (op == "genCodeBook" || op == "test") {
+    if (op == "genCodeBook" || op == "test" || op == "check") {
         cout << INFO << "Test Template\n" << END;
         testAll(codebook, op != "test");
         cout << CORRECT << "Test Template Correct\n" << END;

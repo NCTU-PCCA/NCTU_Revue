@@ -54,12 +54,31 @@ vector<P> CircleLineIntersection(P c, T r, L l) {
   T dis = dist2(c, c1);
   if (dis > r * r) return ret;
   if (fabs(dis - r * r) < EPS) {
-      ret.push_back(c1);
-      return ret;
+    ret.push_back(c1);
+    return ret;
   }
   T x = (r * r - dis);
   ret.push_back(c1 + b * sqrt(x / (b * b)));
   ret.push_back(c1 - b * sqrt(x / (b * b)));
+  return ret;
+}
+
+vector<P> CircleCircleIntersection(P c1, P c2, T r1, T r2) {
+  vector<P> ret;
+  T R = dist(c1, c2);
+  if (fabs(R - (r1 + r2)) < EPS) {
+    P c = (c1 * r2 + c2 * r1) / (r1 + r2);
+    ret.push_back(c);
+    return ret;
+  }
+  if (R > (r1 + r2)) return ret;
+  P a = c2 - c1;
+  T r = (r1 * r1 - r2 * r2) / 2 / R + R / 2;
+  P c = c1 + a * (r / R);
+  T h = sqrt(r1 * r1 - r * r);
+  P b = P(-a.y, a.x) * (h / R);
+  ret.push_back(c + b);
+  ret.push_back(c - b);
   return ret;
 }
 // LatexEnd
