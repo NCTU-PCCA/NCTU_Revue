@@ -120,7 +120,7 @@ void testOne(s &_s) {
     }
     cmd("rm result test.out");
 }
-void testAll(CodeBook &codebook) {
+void testAll(CodeBook &codebook, bool gitDiffCheck = true) {
     for (auto &_S : codebook) {
         cout << _S.name << '\n';
         for (auto &_s : _S) {
@@ -132,7 +132,7 @@ void testAll(CodeBook &codebook) {
             ifstream result("result");
             bool chg; result >> chg;
             cmd("rm result");
-            if (chg)
+            if (chg || !gitDiffCheck)
                 testOne(_s);
             else
                 cout << "----" << INFO << "No Change.\n" << END;
@@ -140,13 +140,13 @@ void testAll(CodeBook &codebook) {
     }
 }
 void genCodeBook(CodeBook &codebook) {
-    cmd("mkdir tmp");
+    cmd("mkdir .tmp");
     ofstream out("content.tex");
     for (auto &_S : codebook) {
-        cmd("mkdir tmp/" + _S.name);
+        cmd("mkdir .tmp/" + _S.name);
         out << "\\section{" << _S.name << "}\n";
         for (auto &_s : _S) {
-            ofstream output("tmp/" + _s.sour_path);
+            ofstream output(".tmp/" + _s.sour_path);
             ifstream code(_s.sour_path);
             string str; bool write = false;
             while (getline(code, str)) {
@@ -158,24 +158,29 @@ void genCodeBook(CodeBook &codebook) {
                     write = true;
             }
             out << "\t\\subsection{" << _s.name << "}\n";
-            out << "\t\t\\lstinputlisting [language=c++] { tmp/" << _s.sour_path << "}\n";
+            out << "\t\t\\lstinputlisting [language=c++] { .tmp/" << _s.sour_path << "}\n";
         }
     }
 }
-int main() {
+int main(int argc, char **argv) {
+    string op = (argc >= 2 ? string(argv[1]) : "genCodeBook");
     ifstream config("config");
     cout << INFO << "Config Parser\n" << END;
     CodeBook codebook(config);
     cout << CORRECT << "Config Parser Correct\n" << END;
-    cout << INFO << "Test Template\n" << END;
-    testAll(codebook);
-    cout << CORRECT << "Test Template Correct\n" << END;
-    cout << INFO << "Generate CodeBook" << END << '\n';
-    genCodeBook(codebook);
-    cmd("xelatex codebook.tex");
-    cmd("xelatex codebook.tex");
-    cmd("rm codebook.aux codebook.log codebook.toc -f > /dev/null");
-    cmd("rm -rf tmp");
-    cmd("rm content.tex");
-    cout << CORRECT << "Generate CodeBook Done\n" << END;
+    if (op == "genCodeBook" || op == "test") {
+        cout << INFO << "Test Template\n" << END;
+        testAll(codebook, op != "test");
+        cout << CORRECT << "Test Template Correct\n" << END;
+    }
+    if (op == "genCodeBook") {
+        cout << INFO << "Generate CodeBook" << END << '\n';
+        genCodeBook(codebook);
+        cmd("xelatex codebook.tex");
+        cmd("xelatex codebook.tex");
+        cmd("rm codebook.aux codebook.log codebook.toc -f > /dev/null");
+        cmd("rm -rf .tmp");
+        cmd("rm content.tex");
+        cout << CORRECT << "Generate CodeBook Done\n" << END;
+    }
 }
