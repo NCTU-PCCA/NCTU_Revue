@@ -128,7 +128,7 @@ void testAll(CodeBook &codebook, bool gitDiffCheck = true) {
                 continue;
             cout << "--" << _s.name << '\n';
             cmd("git add -N " + _s.sour_path);
-            cmd("git diff --staged " + _s.sour_path + " | wc -l > result");
+            cmd("git diff HEAD " + _s.sour_path + " | wc -l > result");
             ifstream result("result");
             bool chg; result >> chg;
             cmd("rm result");
