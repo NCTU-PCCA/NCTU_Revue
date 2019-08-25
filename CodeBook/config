@@ -29,3 +29,5 @@ S Geometry
 S String
     s ACAutomaton           String/ACAutomaton.cpp              test/String/ACAutomaton             -
     s KMP                   String/KMP.cpp                      test/String/KMP                     -
+    s Z                     String/Z.cpp                        test/String/Z                       -
+    s MinRotate             String/MinRotate.cpp                test/String/MinRotate               -
