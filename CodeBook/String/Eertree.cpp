@@ -27,9 +27,9 @@ struct Eertree {
       (*u)[i] = v;
     }
     l = (*u)[i];
-// LatexBegin
-    if (l->len > ans.size()) ans = s.substr(s.size() - l->len, l->len);
 // LatexEnd
+    if (l->len > ans.size()) ans = s.substr(s.size() - l->len, l->len);
+// LatexBegin
   }
   Node* trans(Node *u) { int n = s.size() - 1;
     while (s[n - u->len - 1] != s[n]) u = u->f;
