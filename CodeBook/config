@@ -36,3 +36,4 @@ S Math
     s Extgcd                Math/Extgcd.cpp                     test/Math/Extgcd                    test/Math/Extgcd/test.cpp
     s ModInv                Math/ModInv.cpp                     test/Math/ModInv                    test/Math/ModInv/test.cpp
     s BigN                  Math/BigN.cpp                       test/Math/BigN                      -
+    s FFT                   Math/FFT.cpp                        test/Math/FFT                       -
