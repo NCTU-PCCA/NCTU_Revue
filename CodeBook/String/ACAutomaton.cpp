@@ -27,7 +27,9 @@ struct ACAutomaton{
     for (auto &c : s) { int i = idx(c);
       if (!(*u)[i]) (*u)[i] = new Node(); u = (*u)[i];
     }
+// LatexBegin
     u->dp++;
+// LatexEnd
   }
   void buildAC() { static queue<Node*> q;
     for (auto &v : *o) v = r; r->f = o; q.push(r);
