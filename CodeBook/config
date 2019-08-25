@@ -32,3 +32,6 @@ S String
     s Z                     String/Z.cpp                        test/String/Z                       -
     s MinRotate             String/MinRotate.cpp                test/String/MinRotate               -
     s Eertree               String/Eertree.cpp                  test/String/Eertree                 -
+S Math
+    s Extgcd                Math/Extgcd.cpp                     test/Math/Extgcd                    test/Math/Extgcd/test.cpp
+    s ModInv                Math/ModInv.cpp                     test/Math/ModInv                    test/Math/ModInv/test.cpp
