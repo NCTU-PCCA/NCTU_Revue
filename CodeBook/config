@@ -28,3 +28,4 @@ S Geometry
     s ClosetPair            Geometry/ClosetPair.cpp             test/Geometry/ClosetPair            test/Geometry/ClosetPair/test.cpp
 S String
     s ACAutomaton           String/ACAutomaton.cpp              test/String/ACAutomaton             -
+    s KMP                   String/KMP.cpp                      test/String/KMP                     -
