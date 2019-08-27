@@ -36,7 +36,7 @@ struct Mo {
 // LatexBegin
     }
   }
-  void addEvent(int qT, int id, int l, int r, LL v) {
+  void addQ(int qT, int id, int l, int r, LL v) {
     qs.push_back({qT, id, l, r, 0, v});
   }
 // LatexEnd
@@ -67,10 +67,10 @@ int main() {
   for (int i = 0 ; i < q ; i++) {
     int l1, r1, l2, r2; cin >> l1 >> r1 >> l2 >> r2;
     l1--, l2--;
-    mo->addEvent(0, i, l1, l2, -1);
-    mo->addEvent(0, i, r1, r2, -1);
-    mo->addEvent(0, i, l1, r2, 1);
-    mo->addEvent(0, i, r1, l2, 1);
+    mo->addQ(0, i, l1, l2, -1);
+    mo->addQ(0, i, r1, r2, -1);
+    mo->addQ(0, i, l1, r2, 1);
+    mo->addQ(0, i, r1, l2, 1);
   }
   mo->run();
   for (auto &v : mo->ans)
