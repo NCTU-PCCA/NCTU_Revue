@@ -5,14 +5,14 @@ typedef long long LL;
 struct BIT { vector<LL> d1, d2; int n;
   BIT(int n) : n(n) { d1.resize(n + 1, 0); d2 = d1; }
   void _(int &x, int v) { x += v * (x & -x); }
-  int Q(int x) { x++; LL ret = 0, p = x;
+  int Q(int x) { LL ret = 0, p = x;
     while (x > 0) ret += (p+1)*d1[x] - d2[x], _(x,-1);
     return ret;
   }
   void M(int x, LL v) { x++; LL p = x;
     while (x <= n) d1[x] += v, d2[x] += v * p, _(x, 1);
   }
-  int Q(int l, int r) { return Q(r - 1) - Q(l - 1); }
+  int Q(int l, int r) { return Q(r) - Q(l); }
   void M(int l, int r, LL v) { M(l, v); M(r, -v); }
 };
 // LatexEnd
@@ -25,7 +25,7 @@ int main() {
     }
     int q; cin >> q; while (q--) {
       int op; cin >> op;
-      if (op == 0) { // Q
+      if (op == 0) {
         int l, r; cin >> l >> r;
         cout << sol->Q(l, r) << '\n';
       }
