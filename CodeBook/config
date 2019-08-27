@@ -41,3 +41,5 @@ S Math
     s MillerRabin           Math/MillerRabin.cpp                test/Math/MillerRabin               -
     s Mobius                Math/Mobius.cpp                     test/Math/Mobius                    -
     s CRT                   Math/CRT.cpp                        test/Math/CRT                       -
+S Offline
+    s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
