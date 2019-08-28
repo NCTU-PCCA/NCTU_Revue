@@ -19,6 +19,7 @@ S Graph
     s Dijkstra              Graph/Dijkstra.cpp                  test/Graph/Dijkstra                 -
     s Blossom               Graph/Blossom.cpp                   test/Graph/Blossom                  -
     s LCA                   Graph/LCA.cpp                       test/Graph/LCA                      -
+    s SCC                   Graph/SCC.cpp                       test/Graph/SCC                      -
 S Geometry
     s Point                 Geometry/Point.cpp                  test/Geometry/Point                 test/Geometry/Point/test.cpp
     s Line                  Geometry/Line.cpp                   test/Geometry/Line                  test/Geometry/Line/test.cpp
