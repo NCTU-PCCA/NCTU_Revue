@@ -54,20 +54,17 @@ struct TotBS {
       else {
         if (qs[i].cal + qs[i].buf >= qs[i].v)
           L.push_back(qs[i]);
-        else {
-          qs[i].cal += qs[i].buf;
-          R.push_back(qs[i]);
-        }
+        else
+          qs[i].cal += qs[i].buf, R.push_back(qs[i]);
       }
     }
-    for (int i = 0 ; i < L.size() ; i++)
+    for (int i = 0 ; i < L.size() ; i++) 
       qs[qL + i] = L[i];
     for (int i = 0 ; i < R.size() ; i++)
       qs[qL + L.size() + i] = R[i];
     return L.size();
   }
 };
-// LatexEnd
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(0);
   int n, q; cin >> n >> q;
@@ -92,3 +89,4 @@ int main() {
   for (auto &v : sol->ans)
     cout << v << '\n';
 }
+// LatexEnd
