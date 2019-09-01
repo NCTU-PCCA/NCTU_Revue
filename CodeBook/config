@@ -20,6 +20,7 @@ S Graph
     s Blossom               Graph/Blossom.cpp                   test/Graph/Blossom                  -
     s LCA                   Graph/LCA.cpp                       test/Graph/LCA                      -
     s SCC                   Graph/SCC.cpp                       test/Graph/SCC                      -
+    s VertexBCC             Graph/VertexBCC.cpp                 test/Graph/VertexBCC                -
 S Geometry
     s Point                 Geometry/Point.cpp                  test/Geometry/Point                 test/Geometry/Point/test.cpp
     s Line                  Geometry/Line.cpp                   test/Geometry/Line                  test/Geometry/Line/test.cpp
