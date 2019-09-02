@@ -3,6 +3,7 @@
 #include <bits/stdc++.h>
 #include "Point.cpp"
 #include "Line.cpp"
+#include "Segment.cpp"
 using namespace std;
 
 // LatexBegin
@@ -24,7 +25,8 @@ bool PointInPolygon(const vector<P> & points, P p) {
 bool PointOnPolygon(const vector<P> & points, P p) {
   for (int i = 0; i < points.size(); i ++) {
     P a = points[i], b = points[(i + 1) % points.size()];
-    if (dist2(ProjectPointLine(p, L{a, b}), p) < EPS)
+    if (dist2(ProjectPointLine(p, L{a, b}), p) < EPS 
+        && intersect(p, S{a, b}))
       return true;
   }
   return false;
