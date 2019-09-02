@@ -23,10 +23,10 @@ bool intersection(S s1, S s2) {
   T c1 = dir(s2.p1, s1), c2 = dir(s2.p2, s1);
   T c3 = dir(s1.p1, s2), c4 = dir(s1.p2, s2);
   if (c1 * c2 < -EPS && c3 * c4 < -EPS) return true;
-  if (abs(c1) < EPS && intersect(s2.p1, s1)) return true;
-  if (abs(c2) < EPS && intersect(s2.p2, s1)) return true;
-  if (abs(c3) < EPS && intersect(s1.p1, s2)) return true;
-  if (abs(c4) < EPS && intersect(s1.p2, s2)) return true;
+  if (abs(c1)<EPS && intersect(s2.p1, s1)) return true;
+  if (abs(c2)<EPS && intersect(s2.p2, s1)) return true;
+  if (abs(c3)<EPS && intersect(s1.p1, s2)) return true;
+  if (abs(c4)<EPS && intersect(s1.p2, s2)) return true;
   return false;
 }
 T dist(S s1, S s2) { 
