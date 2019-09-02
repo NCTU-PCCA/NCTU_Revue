@@ -50,6 +50,7 @@ S Math
     s PHITable              Math/PHITable.cpp                   test/Math/PHITable                  -
     s Simplex               Math/Simplex.cpp                    test/Math/Simplex                   -
     s Matrix                Math/Matrix.cpp                     -                                   -
+    s PollardRho            Math/PollardRho.cpp                 -                                   -
 S Offline
     s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
     s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
