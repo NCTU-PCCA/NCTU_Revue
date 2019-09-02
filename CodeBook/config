@@ -54,3 +54,4 @@ S Offline
     s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
 S Other
     s Python                Other/Python.py                     -                                   -
+    s GNU_bitwise           Other/GNU_bitwise.cpp               -                                   -
