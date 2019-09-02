@@ -32,6 +32,7 @@ S Geometry
     s Convex                Geometry/Convex.cpp                 test/Geometry/Convex                test/Geometry/Convex/test.cpp
     s Polygon               Geometry/Polygon.cpp                test/Geometry/Polygon               test/Geometry/Polygon/test.cpp
     s ClosetPair            Geometry/ClosetPair.cpp             test/Geometry/ClosetPair            test/Geometry/ClosetPair/test.cpp
+    s LargestTriangle       Geometry/LargestTriangle.cpp        test/Geometry/LargestTriangle       -
 S String
     s ACAutomaton           String/ACAutomaton.cpp              test/String/ACAutomaton             -
     s KMP                   String/KMP.cpp                      test/String/KMP                     -
