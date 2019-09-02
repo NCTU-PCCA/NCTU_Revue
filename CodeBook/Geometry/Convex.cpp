@@ -27,15 +27,21 @@ vector<P> convexHull(vector<P> &ps) {
   for (auto &p : stk) ret.push_back(p);
   return ret;
 }
-// LatexEnd
-bool PointInConvex(P p, vector<P> &ps) {
-  int n = ps.size();
-  vector<P> ang;
-  for (int i = 0 ; i < n - 1 ; i++) {
-    ang.push_back(ps[i] - ps.back());
+T A(P a, P b, P c) { return abs((b - a) % (c - a)); }
+bool PointInConvex(P p, vector<P> &ps) { 
+  int n = ps.size(); 
+  P t = p-ps[0], f = ps[1]-ps[0], b = ps[n - 1]-ps[0];
+  if (atan2(t.y, t.x) < atan2(f.y, f.x)
+   || atan2(t.y, t.x) > atan2(b.y, b.x)
+  )
+    return false;
+  int L = 0, R = n - 2; while (R - L > 1) {
+    int M = (L + R) >> 1; P c = ps[M + 1] - ps[0];
+    (atan2(t.y, t.x) >= atan2(c.y, c.x) ? L : R) = M;
   }
-  for (auto &p : ang)
-    cout << p.x << ' ' << p.y << '\n';
-  return true;
+  L++, R++;
+  return A(p, ps[0], ps[L]) + A(p, ps[0], ps[R]) 
+       + A(p, ps[L], ps[R]) <= A(ps[0], ps[L], ps[R]);
 }
+// LatexEnd
 #endif

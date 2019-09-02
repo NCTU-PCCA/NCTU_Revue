@@ -15,4 +15,14 @@ int main() {
     for (auto &p : ans)
       cout << (long long)p.x << ' ' << (long long)p.y << '\n';
   }
+  int L; cin >> L;
+  vector<P> l(L); for (auto &p : l) cin >> p.x >> p.y;
+  vector<P> convex = convexHull(l);
+  int S, cnt = 0; cin >> S;
+  for (int i = 0 ; i < S ; i++) {
+    P p; cin >> p.x >> p.y;
+      if (PointInConvex(p, convex))
+        cnt++;
+  }
+  cout << cnt << '\n';
 }
