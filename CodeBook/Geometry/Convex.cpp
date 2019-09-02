@@ -23,8 +23,19 @@ vector<P> convexHull(vector<P> &ps) {
       stk.pop_back();
     stk.push_back(p);
   }
+  stk.pop_back();
   for (auto &p : stk) ret.push_back(p);
   return ret;
+}
+bool PointInConvex(P p, vector<P> &ps) {
+  int n = ps.size();
+  vector<P> ang;
+  for (int i = 0 ; i < n - 1 ; i++) {
+    ang.push_back(ps[i] - ps.back());
+  }
+  for (auto &p : ang)
+    cout << p.x << ' ' << p.y << '\n';
+  return true;
 }
 // LatexEnd
 #endif

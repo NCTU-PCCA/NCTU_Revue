@@ -11,7 +11,6 @@ int main() {
       ps.push_back(P{(double)x, (double)y});
     }
     vector<P> ans = convexHull(ps);
-    ans.pop_back();
     cout << ans.size() << '\n';
     for (auto &p : ans)
       cout << (long long)p.x << ' ' << (long long)p.y << '\n';
