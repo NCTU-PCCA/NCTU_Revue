@@ -22,6 +22,7 @@ S Graph
     s SCC                   Graph/SCC.cpp                       test/Graph/SCC                      -
     s VertexBCC             Graph/VertexBCC.cpp                 test/Graph/VertexBCC                -
     s KM                    Graph/KM.cpp                        test/Graph/KM                       -
+    s MaximumClique         Graph/MaximumClique.cpp             test/Graph/MaximumClique            -
 S Geometry
     s Point                 Geometry/Point.cpp                  test/Geometry/Point                 test/Geometry/Point/test.cpp
     s Line                  Geometry/Line.cpp                   test/Geometry/Line                  test/Geometry/Line/test.cpp
