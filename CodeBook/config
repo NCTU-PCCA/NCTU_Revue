@@ -51,3 +51,5 @@ S Math
 S Offline
     s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
     s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
+S Other
+    s Python                Other/Python.py                     -                                   -
