@@ -27,6 +27,7 @@ vector<P> convexHull(vector<P> &ps) {
   for (auto &p : stk) ret.push_back(p);
   return ret;
 }
+// LatexEnd
 bool PointInConvex(P p, vector<P> &ps) {
   int n = ps.size();
   vector<P> ang;
@@ -37,5 +38,4 @@ bool PointInConvex(P p, vector<P> &ps) {
     cout << p.x << ' ' << p.y << '\n';
   return true;
 }
-// LatexEnd
 #endif
