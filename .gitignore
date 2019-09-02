@@ -2,3 +2,4 @@ def.cpp
 a.out
 *.log
 *.pdf
+.gen.out

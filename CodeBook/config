@@ -18,6 +18,10 @@ S Graph
     s CutBridge             Graph/CutBridge.cpp                 test/Graph/CutBridge                -
     s Dijkstra              Graph/Dijkstra.cpp                  test/Graph/Dijkstra                 -
     s Blossom               Graph/Blossom.cpp                   test/Graph/Blossom                  -
+    s LCA                   Graph/LCA.cpp                       test/Graph/LCA                      -
+    s SCC                   Graph/SCC.cpp                       test/Graph/SCC                      -
+    s VertexBCC             Graph/VertexBCC.cpp                 test/Graph/VertexBCC                -
+    s KM                    Graph/KM.cpp                        test/Graph/KM                       -
 S Geometry
     s Point                 Geometry/Point.cpp                  test/Geometry/Point                 test/Geometry/Point/test.cpp
     s Line                  Geometry/Line.cpp                   test/Geometry/Line                  test/Geometry/Line/test.cpp
@@ -31,3 +35,17 @@ S String
     s KMP                   String/KMP.cpp                      test/String/KMP                     -
     s Z                     String/Z.cpp                        test/String/Z                       -
     s MinRotate             String/MinRotate.cpp                test/String/MinRotate               -
+    s Eertree               String/Eertree.cpp                  test/String/Eertree                 -
+    s SuffixArray           String/SA.cpp                       test/String/SA                      -
+S Math
+    s Extgcd                Math/Extgcd.cpp                     test/Math/Extgcd                    test/Math/Extgcd/test.cpp
+    s ModInv                Math/ModInv.cpp                     test/Math/ModInv                    test/Math/ModInv/test.cpp
+    s BigN                  Math/BigN.cpp                       test/Math/BigN                      -
+    s FFT                   Math/FFT.cpp                        test/Math/FFT                       -
+    s MillerRabin           Math/MillerRabin.cpp                test/Math/MillerRabin               -
+    s Mobius                Math/Mobius.cpp                     test/Math/Mobius                    -
+    s CRT                   Math/CRT.cpp                        test/Math/CRT                       -
+    s PHITable              Math/PHITable.cpp                   test/Math/PHITable                  -
+S Offline
+    s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
+    s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
