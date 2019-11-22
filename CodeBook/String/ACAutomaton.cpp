@@ -3,7 +3,7 @@ using namespace std;
 // LatexBegin
 const int SIGMA = 26;
 const int MAXLEN = 1e5;
-struct ACAutomaton{
+struct AC{
   struct Node : vector<Node*> { Node *f; 
 // LatexEnd
     int dp; bool vis;
@@ -17,8 +17,8 @@ struct ACAutomaton{
     }
 // LatexBegin
   }*r, *o;
-  ACAutomaton() { o = new Node(), r = new Node(); }
-  ~ACAutomaton() { remove(r); delete o; }
+  AC() { o = new Node(), r = new Node(); }
+  ~AC() { remove(r); delete o; }
   void remove(Node *u) { if (!u) return ;
     for (auto &v : *u) remove(v); delete u;
   }
@@ -41,7 +41,8 @@ struct ACAutomaton{
     }
   }
   Node* trans(Node *u, int c) {
-    while (!(*u)[c]) u = u->f; return (*u)[c];
+    if ((*u)[c]) return (*u)[c];
+    return (*u)[c] = trans(u->f, c);
   }
   int search(string &s) { int ans = 0; Node *u = r;
 // LatexEnd
@@ -65,13 +66,12 @@ struct ACAutomaton{
   }
 };
 // LatexEnd
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(0);
   int t; cin >> t; while (t--){
     int n; cin >> n;
-    ACAutomaton *sol = new ACAutomaton();
+    AC *sol = new AC();
     for (int i = 0 ; i < n ; i++) {
       string str; cin >> str;
       sol->buildTrie(str);
@@ -79,6 +79,5 @@ int main(){
     sol->buildAC();
     string target; cin >> target;
     cout << sol->search(target) << '\n';
-    delete sol;
   }
 }
