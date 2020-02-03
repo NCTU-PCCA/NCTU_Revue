@@ -1,72 +1,64 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int MAXN = 1e3 + 5;
-const int MAXM = (MAXN * MAXN) / 2;
 typedef long long LL;
 const LL INF = 0x3f3f3f3f3f3f3f3fLL;
 // LatexBegin
-struct Graph{ struct Edge; int V;
-  struct Node : vector<Edge*>{
-    iterator cur; int d; Node(){ clear(); }
-  }_memN[MAXN], *node[MAXN], *s, *t;
-  struct Edge{ Node *u, *v; Edge *rev; LL c, f; 
-    Edge(Node *u, Node *v, LL c, Edge *rev) 
-        : u(u), v(v), c(c), f(0), rev(rev){} Edge(){}
-  }_memE[MAXM], *ptrE;
-  Graph(int _V) : V(_V) { ptrE = _memE;
-    for (int i = 0 ; i < V ; i++) node[i] = _memN + i;
+struct Dinic {
+  struct Node : vector<int> { int d, p; };
+  struct Edge { int u, v; LL c; };
+  vector<Node> N; vector<Edge> E;
+  void init(int n) {
+    E.clear(); N.clear(); N.resize(n);
   }
-  void addEdge(int _u, int _v, LL _c){
-    *ptrE = Edge(node[_u], node[_v], _c, ptrE + 1);
-    node[_u]->push_back(ptrE++);
-    *ptrE = Edge(node[_v], node[_u], _c, ptrE - 1);
-    node[_v]->push_back(ptrE++);
+  void addEdge(int u, int v, LL c) { int m = E.size();
+    E.push_back({u, v, c}); N[u].push_back(m++);
+    E.push_back({v, u, 0}); N[v].push_back(m++);
   }
-  LL maxFlow(int _s, int _t){
-    s = node[_s], t = node[_t]; LL flow = 0;
-    while (bfs()) {
-      for (int i = 0 ; i < V ; i++)
-        node[i]->cur = node[i]->begin();
-      flow += dfs(s, INF);
+  LL maxFlow(int s, int t) {
+    LL flow = 0; while (bfs(s, t)) {
+      for (auto &v : N) v.p = 0;
+      flow += dfs(s, t, INF);
     }
     return flow;
   }
-  bool bfs(){
-    for (int i = 0 ; i < V ; i++) node[i]->d = -1;
-    queue<Node*> q; q.push(s); s->d = 0;
-    while (q.size()) { Node *u = q.front(); q.pop();
-      for (auto e : *u) { Node *v = e->v;
-        if (!~v->d && e->c > e->f)
-          q.push(v), v->d = u->d + 1;
+  bool bfs(int s, int t) {
+    for (auto &v : N) v.d = -1;
+    queue<int> q; q.push(s); N[s].d = 0;
+    while (q.size()) {
+      int u = q.front(); q.pop();
+      for (auto &e : N[u]) { int v = E[e].v;
+        if (!~N[v].d && E[e].c)
+          q.push(v), N[v].d = N[u].d + 1;
       }
     }
-    return ~t->d;
+    return ~N[t].d;
   }
-  LL dfs(Node *u, LL a){ 
-    if (u == t || !a) return a; LL flow = 0, f;
-    for (; u->cur != u->end() ; u->cur++) {
-      auto &e = *u->cur; Node *v = e->v;
-      if (u->d + 1 == v->d 
-        && (f = dfs(v, min(a, e->c - e->f))) > 0) {
-        e->f += f; e->rev->f -= f; flow += f; a -= f;
-        if (!a) break;
-      }
+  LL dfs(int u, int t, LL a) {
+    if (u == t || !a) return a; LL flow = 0;
+    for (int &p = N[u].p; p < N[u].size() ; p++) {
+      auto e = N[u][p], v = E[e].v;
+      if (N[u].d + 1 != N[v].d) continue;
+      LL f = dfs(v, t, min(a, E[e].c));
+      E[e].c -= f; E[e ^ 1].c += f; flow += f; a -= f;
+      if (!a) break;
     }
     return flow;
   }
 };
 // LatexEnd
+Dinic G;
 int main(){
   ios_base::sync_with_stdio(false); cin.tie(0);
   int kase = 0, n; while (cin >> n && n) {
     cout << "Network " << ++kase << '\n';
-    Graph *G = new Graph(n);
+    G.init(n);
     int s, t, m; cin >> s >> t >> m;
     while (m--) {
       int u, v; LL c;
       cin >> u >> v >> c;
-      G->addEdge(u - 1, v - 1, c);
+      G.addEdge(u - 1, v - 1, c);
+      G.addEdge(v - 1, u - 1, c);
     }
-    cout << "The bandwidth is " << G->maxFlow(s - 1, t - 1) << ".\n\n";
+    cout << "The bandwidth is " << G.maxFlow(s - 1, t - 1) << ".\n\n";
   }
 }
