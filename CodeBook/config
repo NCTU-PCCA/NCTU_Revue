@@ -77,4 +77,3 @@ S Other
     s StableMatching        Other/StableMatching.cpp            test/Other/StableMatching           -
 S tmp
     s LinTreap              DataStructure/LinTreap.cpp          -                                   -
-    s FoxDinic              Flow/FoxDinic.cpp                   -                                   -
