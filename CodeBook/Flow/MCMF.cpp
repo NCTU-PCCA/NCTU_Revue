@@ -1,90 +1,70 @@
 #include <bits/stdc++.h>
-using namespace std;
 #define F first
 #define S second
+using namespace std;
 typedef long long LL;
 typedef pair<LL, LL> pLL;
-const int MAXN = 300;
-const int MAXM = MAXN * MAXN * 2;
-const LL INF = 0x3f3f3f3f3f3f3f3f;
+const LL INF = 0x3f3f3f3f3f3f3f3fLL;
 // LatexBegin
-struct Graph {
-  struct Node; struct Edge; int V;
-  struct Node : vector<Edge*> {
-    bool inq; Edge *pa; LL a, d;
-    Node() { clear(); }
-  }_memN[MAXN], *node[MAXN];
-  struct Edge{
-    Node *u, *v; Edge *rev;
-    LL c, f, _c; Edge() {}
-    Edge(Node *u, Node *v, LL c, LL _c, Edge *rev) 
-      : u(u), v(v), c(c), f(0), _c(_c), rev(rev) {}
-  }_memE[MAXM], *ptrE;
-  Graph(int _V) : V(_V) {
-    for (int i = 0 ; i < V ; i++)
-      node[i] = _memN + i;
-    ptrE = _memE;
+struct MCMF {
+  struct Node : vector<int> { int inq, p; LL a, d; };
+  struct Edge { int u, v; LL c, co; };
+  vector<Node> N; vector<Edge> E;
+  void init(int n) {
+    E.clear(); N.clear(); N.resize(n);
   }
-  void addEdge(int u, int v, LL c, LL _c) {
-    *ptrE = Edge(node[u], node[v], c, _c, ptrE + 1);
-    node[u]->push_back(ptrE++);
-    *ptrE = Edge(node[v], node[u], 0, -_c, ptrE - 1);
-    node[v]->push_back(ptrE++);
+  void addEdge(int u, int v, LL c, LL co) {
+    int m = E.size();
+    N[u].push_back(m++); E.push_back({u, v, c, co});
+    N[v].push_back(m++); E.push_back({v, u, 0, -co});
   }
-  Node *s, *t;
-  bool SPFA() {
-    for (int i = 0 ; i < V ; i++) 
-      node[i]->d = INF, node[i]->inq = false;
-    queue<Node*> q; q.push(s); s->inq = true;
-    s->d = 0, s->pa = NULL, s->a = INF;
+  pLL maxFlowMinCost(int s, int t) {
+    pLL fc = {0, 0}; while (SPFA(s, t)) {
+      LL f; update(s, t, f = N[t].a);
+      fc.F += f; fc.S += f * N[t].d;
+    }
+    return fc;
+  }
+  bool SPFA(int s, int t) {
+    for (auto &v : N) v.d = INF, v.inq = false;
+    queue<int> q; q.push(s);  N[s].inq = 1; 
+    N[s].d = 0; N[s].p = -1; N[s].a = INF;
     while (q.size()) {
-      Node *u = q.front(); q.pop(); u->inq = false;
-      for (auto &e : *u) {
-        Node *v = e->v;
-        if (e->c > e->f && v->d > u->d + e->_c) {
-          v->d = u->d + e->_c;
-          v->pa = e; v->a = min(u->a, e->c - e->f);
-          if (!v->inq) q.push(v), v->inq = true;
-        }
+      int u = q.front(); q.pop(); N[u].inq = 0;
+      for (auto &e : N[u]) { int v = E[e].v; 
+        LL d = N[u].d+E[e].co, a = min(N[u].a,E[e].c);
+        if (!E[e].c || N[v].d <= d) continue;
+        N[v].p = e; N[v].a = a; N[v].d = d;
+        if (!N[v].inq) q.push(v), N[v].inq = 1;
       }
     }
-    return t->d != INF;
+    return N[t].d != INF;
   }
-  pLL maxFlowMinCost(int _s, int _t) {
-    s = node[_s], t = node[_t];
-    pLL res = {0, 0};
-    while (SPFA()) {
-      res.F += t->a;
-      res.S += t->d * t->a;
-      for (Node *u = t ; u != s ; u = u->pa->u) {
-        u->pa->f += t->a;
-        u->pa->rev->f -= t->a;
-      }
-    }
-    return res;
+  void update(int s, int t, LL f) {
+    for (int u = t ; u != s ; u = E[N[u].p].u)
+      E[N[u].p].c -= f, E[N[u].p ^ 1].c += f;
   }
 };
 // LatexEnd
+MCMF G;
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(0);
   int t; cin >> t; while (t--) {
     int n, m; cin >> n >> m;
-    Graph *G = new Graph(n + m + 2);
+    G.init(n + m + 2);
     for (int i = 1 ; i <= n ; i++) {
-      G->addEdge(0, i, 1, 0);
+      G.addEdge(0, i, 1, 0);
       for (int j = 1 ; j <= m ; j++) {
         LL tmp; cin >> tmp;
-        if (tmp) G->addEdge(i, j + n, 1, tmp);
+        if (tmp) G.addEdge(i, j + n, 1, tmp);
       }
     }
     for (int i = 1 ; i <= m ; i++) {
       LL tmp; cin >> tmp;
-      G->addEdge(n + i, n + m + 1, tmp, 0);
+      G.addEdge(n + i, n + m + 1, tmp, 0);
     }
-    pLL ans = G->maxFlowMinCost(0, n + m + 1);
+    pLL ans = G.maxFlowMinCost(0, n + m + 1);
     if (ans.F == n) cout << ans.S << '\n';
     else cout << -1 << '\n';
-    delete G;
   }
 }
-
