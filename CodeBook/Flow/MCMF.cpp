@@ -1,69 +1,73 @@
 #include <bits/stdc++.h>
+using namespace std;
 #define F first
 #define S second
-using namespace std;
 typedef long long LL;
-typedef pair<LL, LL> pLL;
 const LL INF = 0x3f3f3f3f3f3f3f3fLL;
+typedef pair<LL, LL> pLL;
 // LatexBegin
 struct MCMF {
-  struct Node : vector<int> { int inq, p; LL a, d; };
+  struct Node : vector<int> { 
+    int p; bool inq;
+    LL a, d;
+  };
   struct Edge { int u, v; LL c, co; };
   vector<Node> N; vector<Edge> E;
-  void init(int n) {
-    E.clear(); N.clear(); N.resize(n);
-  }
-  void addEdge(int u, int v, LL c, LL co) {
-    int m = E.size();
-    N[u].push_back(m++); E.push_back({u, v, c, co});
-    N[v].push_back(m++); E.push_back({v, u, 0, -co});
+  void init(int n) { N.clear(); N.resize(n); E.clear(); }
+  void addEdge(int u, int v, LL c, LL co) { int m = E.size();
+    E.push_back({u, v, c, co}); N[u].push_back(m++); 
+    E.push_back({v, u, 0, -co}); N[v].push_back(m++);
   }
   pLL maxFlowMinCost(int s, int t) {
-    pLL fc = {0, 0}; while (SPFA(s, t)) {
-      LL f; update(s, t, f = N[t].a);
-      fc.F += f; fc.S += f * N[t].d;
+    pLL res = {0, 0};
+    while (SPFA(s, t)) {
+      res.F += N[t].a;
+      res.S += N[t].d * N[t].a;
+      for (int u = t ; u != s ; u = E[N[u].p].u) {
+        E[N[u].p].c -= N[t].a;
+        E[N[u].p ^ 1].c += N[t].a;
+      }
     }
-    return fc;
+    return res;
   }
   bool SPFA(int s, int t) {
-    for (auto &v : N) v.d = INF, v.inq = false;
-    queue<int> q; q.push(s);  N[s].inq = 1; 
-    N[s].d = 0; N[s].p = -1; N[s].a = INF;
+    for (auto &v : N)
+      v.d = INF, v.inq = false;
+    queue<int> q; q.push(s); N[s].inq = true;
+    N[s].d = 0, N[s].p = -1, N[s].a = INF;
     while (q.size()) {
-      int u = q.front(); q.pop(); N[u].inq = 0;
-      for (auto &e : N[u]) { int v = E[e].v; 
-        LL d = N[u].d+E[e].co, a = min(N[u].a,E[e].c);
-        if (!E[e].c || N[v].d <= d) continue;
-        N[v].p = e; N[v].a = a; N[v].d = d;
-        if (!N[v].inq) q.push(v), N[v].inq = 1;
+      int u = q.front(); q.pop(); N[u].inq = false;
+      for (auto &e : N[u]) {
+        int v = E[e].v;
+        if (!E[e].c || N[v].d <= N[u].d + E[e].co)
+          continue;
+        N[v].d = N[u].d + E[e].co;
+        N[v].p = e; N[v].a = min(N[u].a, E[e].c);
+        if (!N[v].inq) q.push(v), N[v].inq = true;
       }
     }
     return N[t].d != INF;
   }
-  void update(int s, int t, LL f) {
-    for (int u = t ; u != s ; u = E[N[u].p].u)
-      E[N[u].p].c -= f, E[N[u].p ^ 1].c += f;
-  }
 };
 // LatexEnd
-MCMF G;
+MCMF mcmf;
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(0);
   int t; cin >> t; while (t--) {
     int n, m; cin >> n >> m;
-    G.init(n + m + 2);
+    mcmf.init(n + m + 2);
     for (int i = 1 ; i <= n ; i++) {
-      G.addEdge(0, i, 1, 0);
+      mcmf.addEdge(0, i, 1, 0);
       for (int j = 1 ; j <= m ; j++) {
         LL tmp; cin >> tmp;
-        if (tmp) G.addEdge(i, j + n, 1, tmp);
+        if (tmp) mcmf.addEdge(i, j + n, 1, tmp);
       }
     }
     for (int i = 1 ; i <= m ; i++) {
       LL tmp; cin >> tmp;
-      G.addEdge(n + i, n + m + 1, tmp, 0);
+      mcmf.addEdge(n + i, n + m + 1, tmp, 0);
     }
-    pLL ans = G.maxFlowMinCost(0, n + m + 1);
+    pLL ans = mcmf.maxFlowMinCost(0, n + m + 1);
     if (ans.F == n) cout << ans.S << '\n';
     else cout << -1 << '\n';
   }
