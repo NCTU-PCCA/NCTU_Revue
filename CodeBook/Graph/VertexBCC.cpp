@@ -4,7 +4,7 @@
 using namespace std;
 typedef pair<int, int> pii;
 // LatexBegin
-struct Graph { int stamp, bcc_num;
+struct VertexBCC { int stamp, bcc_num;
   struct Node : vector<int> { int dfn, bcc; bool isC;
     Node() { dfn = bcc = -1, isC = false; }
   };
@@ -35,22 +35,22 @@ struct Graph { int stamp, bcc_num;
       stk.push_back({u, v}), lowu = min(lowu,N[v].dfn);
     if (!~p && son == 1) N[u].isC = false; return lowu;
   }
-  void findBCC() { stamp = bcc_num = 0;
+  void run() { stamp = bcc_num = 0;
     for (int i = 0 ; i < N.size() ; i++)
       if (!~N[i].dfn) Tarjan(i, -1);
   }
-} G;
+} solver;
 // LatexEnd
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(0);
   int n, m; cin >> n >> m;
-  G.init(n);
+  solver.init(n);
   while (m--) {
     int u, v; cin >> u >> v;
-    G.addEdge(u, v);
+    solver.addEdge(u, v);
   }
-  G.findBCC();
-  auto BCC = G.BCC;
+  solver.run();
+  auto BCC = solver.BCC;
   cout << BCC.size() << '\n';
   vector<vector<int> > ans;
   for (auto &vv : BCC) {

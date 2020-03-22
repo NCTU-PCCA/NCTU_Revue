@@ -2,7 +2,7 @@
 using namespace std;
 const int MAXN = 1e5 + 5;
 // LatexBegin
-struct Graph { int stamp, scc_num;
+struct SCC { int stamp, scc_num;
   struct Node : vector<int> { 
     int dfn, low, scc; bool inS;
     Node() { dfn = low = scc = -1; inS = false; }
@@ -24,22 +24,22 @@ struct Graph { int stamp, scc_num;
       } while (v != u); scc_num++;
     }
   }
-  int findSCC() { stamp = scc_num = 0;
+  void run() { stamp = scc_num = 0;
     for (int i = 0 ; i < N.size() ; i++)
       if (!~N[i].dfn) Tarjan(i);
-    return scc_num;
   }
-} G;
+} solver;
 // LatexEnd
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(0);
   int n, m; while (cin >> n >> m && n) {
-    G.init(n);
+    solver.init(n);
     while (m--) {
       int u, v; cin >> u >> v; u--, v--;
-      G.addEdge(u, v);
+      solver.addEdge(u, v);
     }
-    if (G.findSCC() == 1)
+    solver.run();
+    if (solver.scc_num == 1)
       cout << "Yes\n";
     else 
       cout << "No\n";

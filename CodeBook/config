@@ -1,5 +1,5 @@
 S Basic
-    s def.cpp               Basic/def.cpp                       -                                   -
+    s fastIO.cpp            Basic/fastIO.cpp                    -                                   -
     s int128                Basic/__int128.cpp                  test/Basic/__int128                 -
 S Flow
     s Dinic                 Flow/Dinic.cpp                      test/Flow/Dinic                     -
@@ -20,7 +20,7 @@ S Graph
     s MMC                   Graph/MMC.cpp                       test/Graph/MMC                      -
     s CutBridge             Graph/CutBridge.cpp                 test/Graph/CutBridge                -
     s Dijkstra              Graph/Dijkstra.cpp                  test/Graph/Dijkstra                 -
-    s Blossom               Graph/Blossom.cpp                   -                                   -
+    s Blossom               Graph/Blossom.cpp                   test/Graph/Blossom                  -
     s GeneralGraphMaxMatch  Graph/GeneralGraphMaxMatch.cpp      -                                   -
     s LCA                   Graph/LCA.cpp                       test/Graph/LCA                      -
     s SCC                   Graph/SCC.cpp                       test/Graph/SCC                      -
