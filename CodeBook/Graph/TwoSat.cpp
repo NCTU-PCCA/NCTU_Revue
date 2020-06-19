@@ -1,80 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+struct SCC { int stamp, scc_num;
+  struct Node : vector<int> {
+    int dfn, low, scc; bool inS;
+    Node() { dfn = low = scc = -1; inS = false; }
+  };
+  vector<Node> N; vector<int> stk;
+  void init(int n) {
+    N.clear(); N.resize(n); stk.clear();
+  }
+  void addEdge(int u, int v) { N[u].push_back(v); }
+  void Tarjan(int u) { N[u].low = N[u].dfn = stamp++;
+    stk.push_back(u); N[u].inS = true;
+    for (auto &v : N[u]) if (!~N[v].dfn) Tarjan(v),
+      N[u].low = min(N[u].low, N[v].low);
+    else if (N[v].inS)
+      N[u].low = min(N[u].low, N[v].dfn);
+    if (N[u].dfn == N[u].low) {
+      int v; do { v = stk.back(); stk.pop_back();
+        N[v].scc = scc_num; N[v].inS = false;
+      } while (v != u); scc_num++;
+    }
+  }
+  void run() { stamp = scc_num = 0;
+    for (int i = 0 ; i < N.size() ; i++)
+      if (!~N[i].dfn) Tarjan(i);
+  }
+};
 // LatexBegin
-vector<int>g[maxn]; 
-vector<int>rev[maxn]; 
-stack<int>st;  
-int n,m,scc,idx;  
-int low[maxn],dfn[maxn],instack[maxn],fa[maxn];  
-int ans[maxn];
-int in[maxn];
-int opp[maxn],c[maxn];
-void tarjan(int now){
-	dfn[now] = low[now] = ++idx;
-	instack[now] = 1;
-	st.push(now);
-	for(auto i:g[now]){
-		if(!dfn[i]){
-			tarjan(i);
-			low[now] = min(low[now],low[i]);
-		}
-		else if(instack[i]){
-			low[now] = min(low[now],dfn[i]);
-		}
-	}
-	if(dfn[now] == low[now]){
-		scc++;
-		while(1){
-			int cur = st.top();
-			st.pop();
-			instack[cur] = 0;
-			fa[cur] = scc;
-			if(cur == now)break;
-		}
-	}
-}
-bool check(){
-	for(int i=0;i<2*n;i++){
-		if(!dfn[i]){
-			tarjan(i);
-		}
-	}
-	for(int i=0;i<2*n;i+=2){
-		if(!nd[i/4])continue;
-		opp[fa[i]] = fa[i+1];
-		opp[fa[i+1]] = fa[i];
-	}
-	return 1;
-}
-void build(){
-	for(int i=1;i<=n;i++){
-		int x = fa[i];
-		for(auto j:g[i]){
-			int y = fa[j];
-			if(x!=y){
-				rev[y].push_back(x);
-				in[x]++;
-			}
-		}
-	}
-}
-void topo(){
-	memset(c,0,sizeof(c));
-	queue<int>q;
-	f1(scc){
-		if(!in[i])q.push(i);
-	}
-	while(!q.empty()){
-		int now = q.front();
-		q.pop();
-		if(!c[now]){
-			c[now] = 1;
-			c[opp[now]] = 2;
-		}
-		for(auto i:rev[now]){
-			in[i]--;
-			if(!in[i]){
-				q.push(i);
-			}
-		}
-	}	
-}
+struct _2Sat : SCC {
+  void init(int n) { SCC::init(2 * n); }
+  /* addCond(0, 0, 1, 1) -> v0 or !v1*/
+  void addCond(int o1, int v1, int o2, int v2) {
+    addEdge((v1 << 1) | (o1 ^ 1), (v2 << 1) | o2);
+    addEdge((v2 << 1) | (o2 ^ 1), (v1 << 1) | o1);
+  }
+  bool check() {
+    for (int i = 0 ; i < N.size() ; i += 2)
+      if (N[i].scc == N[i ^ 1].scc) return false;
+    return true;
+  }
+  vector<int> construct() { vector<int> ret;
+    for (int i = 0 ; i < N.size() ; i += 2)
+      ret.push_back(N[i].scc < N[i ^ 1].scc);
+    return assert(check()), ret;
+  }
+} solver;
 // LatexEnd
+int main() {
+    ios_base::sync_with_stdio(false); cin.tie(0);
+    int n, m; cin >> m >> n;
+    solver.init(n);
+    while (m--) {
+        string n1, n2; int v1, v2;
+        cin >> n1 >> v1 >> n2 >> v2; v1--, v2--;
+        solver.addCond(n1 != "+", v1, n2 != "+", v2);
+    }
+    solver.run();
+    if (solver.check()) {
+        for (auto &v : solver.construct())
+            cout << "-+"[v] << ' ';
+        cout << '\n';
+    } else
+        cout << "IMPOSSIBLE\n";
+}
