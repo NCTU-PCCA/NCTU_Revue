@@ -165,7 +165,7 @@ void checkLatexLabel(CodeBook &codebook) {
             if (!write)
                 throwCheckLatexLabelError(_s.sour_path, 0, "Latex Label Not Found");
             if (!write)
-                throwCheckLatexLabelError(_s.sour_path, 0, "Number of Latex Label(// LatexBegin & // LatexEnd) not Math");
+                throwCheckLatexLabelError(_s.sour_path, 0, "Number of Latex Label(// LatexBegin & // LatexEnd) doesn't match");
         }
     }
 }
@@ -216,6 +216,7 @@ int main(int argc, char **argv) {
         cmd("rm codebook.aux codebook.log codebook.toc -f > /dev/null");
         cmd("rm -rf .tmp");
         cmd("rm content.tex");
+        cmd("rm notes.tex");
         cout << CORRECT << "Generate CodeBook Done.\n" << END;
     }
 }
