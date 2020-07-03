@@ -216,7 +216,6 @@ int main(int argc, char **argv) {
         cmd("rm codebook.aux codebook.log codebook.toc -f > /dev/null");
         cmd("rm -rf .tmp");
         cmd("rm content.tex");
-        cmd("rm notes.tex");
         cout << CORRECT << "Generate CodeBook Done.\n" << END;
     }
 }
