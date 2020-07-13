@@ -1,41 +1,33 @@
 #include <bits/stdc++.h>
+#define ALL(x) (x).begin(), (x).end()
+#define PB push_back
 using namespace std;
-// LatexBegin
 using VI = vector<int>;
-bool noteq(int a, int b, int k, int n, int *RA) {
-  return RA[a] != RA[b] || a + k >= n || b + k >= n 
-      || RA[a + k] != RA[b + k];
+// LatexBegin
+#define NX(x) ((x+k)%n)
+#define C(a,b) (V[a]==V[b]?V[NX(a)]<V[NX(b)]:V[a]<V[b])
+#define go(XD) V2[sa[0]]=N=0; \
+  for(int i=1;i<n;i++) N+=XD, V2[sa[i]]=N; V=V2;
+#define RSP sa, n, N+1
+void RS(auto &sa, int n, int N, auto &V) { 
+  VI B(N), t(n); for (auto &v : sa) B[V[v]]++;
+  partial_sum(ALL(B), B.begin()); int i = n;
+  while (i--) t[--B[V[sa[i]]]] = sa[i]; sa = t;
 }
-void RS(int *bg, int *ed, int *RA, int N) {
-  int n = ed - bg, box[N], tmp[n]; 
-  fill_n(box, N, 0);
-  for (int i = 0 ; i < n ; i++) box[RA[i]]++;
-  partial_sum(box, box + N, box);
-  for (int i = n - 1 ; ~i ; i--) 
-    tmp[--box[RA[bg[i]]]] = bg[i];
-  copy_n(tmp, n, bg);
+VI SA(string &s) { int n = s.size(), k = 0, N = 255;
+  VI sa(n), V(n), V2(n); iota(ALL(sa), 0); 
+  RS(RSP, s); go(s[sa[i - 1]] != s[sa[i]]);
+  for (int k = 1 ; N + 1 < n ; k <<= 1, k %= n) { 
+    for (auto &v : sa) (v += n - k) %= n; RS(RSP, V);
+    go(C(sa[i - 1], sa[i]) || C(sa[i], sa[i - 1]));
+  } return sa; 
 }
-void build_sa(string &s, VI &sa, VI &ra) {
-  char *S = (char *)s.c_str();
-  int n = s.size(), SA[n], RA[n], N = 256;
-  copy_n(S, n, RA); for (int k = 1 ; k < n ; k <<= 1) {
-    iota(SA, SA + n, 0), RS(SA, SA + n - k, RA + k, N);
-    RS(SA, SA + n, RA, N); 
-    int RA2[n]; RA2[SA[0]] = 0; N = 1;
-    for (int i = 1 ; i < n ; i++) {
-      if (noteq(SA[i - 1], SA[i], k, n, RA)) N++;
-      RA2[SA[i]] = N - 1;
-    }
-    copy_n(RA2, n, RA); if (N == n) break;
-  }
-  sa.assign(SA, SA + n); ra.assign(RA, RA + n);
-}
-void build_hei(string &s, VI &sa, VI &ra, VI &hei) {
-  hei.clear(); hei.resize(s.size());
-  for (int i = 0, k = 0, n = s.size() ; i < n ; i++) {
-    if (ra[i]) while(s[i + k] == s[sa[ra[i]-1]+k]) k++;
-    hei[ra[i]] = k; k = max(0, k - 1);
-  }
+VI LCP(string &s, auto &sa) { int n = s.size();
+  VI lcp(n), ra(n); for (int i=0;i<n;i++) ra[sa[i]]=i;
+  for (int i = 0, k = 0 ; i < n ; i++) {
+    if (ra[i]) while(s[i+k] == s[sa[ra[i]-1]+k]) k++;
+    lcp[ra[i]] = k; k = max(0, k - 1);
+  } return lcp; 
 }
 // LatexEnd
 int magic(int v, vector<int> &pre) {
@@ -52,16 +44,15 @@ int main() {
       cin >> str, s += str, s += char(cnt++), pre.push_back(s.size());
       if (cnt == 'a') cnt += 26;
     }
-    VI sa, ra, hei;
-    build_sa(s, sa, ra);
-    build_hei(s, sa, ra, hei);
+    auto sa = SA(s);
+    auto lcp = LCP(s, sa);
     char *S = (char *)s.c_str();
     int L = 0, R = s.size(); while (R - L > 1) {
       int M = (R + L) >> 1; set<int> app;
       bool ok = false;
       for (int i = 0 ; i < s.size() ; i++) {
         if (s[sa[i]] == '$') continue;
-        if (hei[i] < M) {
+        if (lcp[i] < M) {
           if (app.size() * 2 > n)
             ok = true;
           app.clear();
@@ -74,7 +65,7 @@ int main() {
       set<string> ans; set<int> app;
       for (int i = 0 ; i < s.size() ; i++) {
         if (s[sa[i]] == '$') continue;
-        if (hei[i] < L) {
+        if (lcp[i] < L) {
           if (app.size() * 2 > n) {
             string ans_str = s.substr(sa[i - 1], L);
             bool ok = true;
