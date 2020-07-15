@@ -48,6 +48,7 @@ S String
     s SuffixArray           String/SA.cpp                       test/String/SA                      -
     s BWT                   String/BWT.cpp                      test/String/BWT                     -
     s Manacher              String/Manacher.cpp                 test/String/Manacher                -
+    s SuffixAutomaton       String/SAM.cpp                      test/String/SAM                     -
 S Math
     s Extgcd                Math/Extgcd.cpp                     test/Math/Extgcd                    test/Math/Extgcd/test.cpp
     s ModInv                Math/ModInv.cpp                     test/Math/ModInv                    test/Math/ModInv/test.cpp
