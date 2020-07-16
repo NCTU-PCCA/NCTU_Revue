@@ -40,7 +40,7 @@ S Geometry
     s HalfPlaneIntersection Geometry/HalfPlaneIntersection.cpp  -                                   -
     s 3DConvex              Geometry/3DConvex.cpp               -                                   -
 S String
-    s ACAutomaton           String/ACAutomaton.cpp              test/String/ACAutomaton             -
+    s ACAutomaton           String/AC.cpp                       test/String/AC                      -
     s KMP                   String/KMP.cpp                      test/String/KMP                     -
     s Z                     String/Z.cpp                        test/String/Z                       -
     s MinRotate             String/MinRotate.cpp                test/String/MinRotate               -
