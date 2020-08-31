@@ -70,8 +70,6 @@ S Offline
 S Other
     s Python                Other/Python.py                     -                                   -
     s GNU\_bitwise          Other/GNU_bitwise.cpp               -                                   -
-    s Count\_Digit          Other/Count_Digit.cpp               test/Other/Count_Digit              -
-    s KnapsackLimit         Other/KnapsackLimit.cpp             test/Other/KnapsackLimit            -
     s GridMST               Other/GridMST.cpp                   -                                   -
     s CountSpanningTree     Other/CountSpanningTree.cpp         -                                   -
     s StableMatching        Other/StableMatching.cpp            test/Other/StableMatching           -
