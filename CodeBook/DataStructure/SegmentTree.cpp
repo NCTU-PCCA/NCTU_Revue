@@ -2,7 +2,7 @@
 using namespace std; 
 using LL = long long;
 // LatexBegin
-struct SegmentTree {
+template <bool P = 0> struct SegmentTree {
   #define lson L, R, N[u].l
   #define rson L, R, N[u].r
   #define OUT R <= N[u].L || N[u].R <= L
@@ -15,9 +15,9 @@ struct SegmentTree {
 // LatexEnd
 */
 // LatexBegin
-  vector<Node> N; int p; vector<int> rt;
-  inline void init(int n) { N.resize(n * 40); p = 1;
-    rt.clear(); rt.push_back(build(0, n));
+  vector<Node> N; int p, n; vector<int> rt;
+  inline void init(int _n) { N.resize(_n * (P ? 40:8));
+    n = _n; p = 1; rt.assign(1, build(0, n));
   }
   inline int copy(Node u) { return N[p] = u, p++; }
   int build(int L, int R) {
@@ -55,7 +55,8 @@ struct SegmentTree {
     return u;
   }
   int m(int L, int R, int u, LL v) {
-    if (!u || OUT) return u; u = copy(N[push(u)]);
+    if (!u || OUT) return u; push(u);
+    if (P) u = copy(N[u]);
 // LatexEnd
     if (IN) return N[u].chg = v, u;
 /*
@@ -67,21 +68,21 @@ struct SegmentTree {
     return pull(u, m(lson, v), m(rson, v));
   }
   int q(int L, int R, int u) {
-    if (!u || OUT) return 0; if (IN) return u;
-    return pull(copy(N[push(u)]), q(lson), q(rson));
+    if (!u || OUT) return 0; push(u); if (IN) return u;
+    return pull(copy(N[u]), q(lson), q(rson));
   }
   inline void modify(int L, int R, int ver, LL v) {
     rt[ver] = m(L, R, rt[ver], v);
   }
   inline Node& query(int L, int R, int ver) {
-    return N[q(L, R, rt[ver])];
+    if (!P) p = 4 * n; return N[q(L, R, rt[ver])];
   }
 };
 // LatexEnd
 int main() {
   ios_base::sync_with_stdio(false); cin.tie(0);
   int n, q; cin >> n >> q;
-  SegmentTree solver; solver.init(n);
+  SegmentTree<1> solver; solver.init(n);
   for (int i = 0 ; i < n ; i++) {
     int v; cin >> v;
     solver.modify(i, i + 1, 0, v);
@@ -100,3 +101,48 @@ int main() {
     }
   }
 }
+/*
+template <bool P = 0> struct SegmentTree {
+  #define lson L, R, N[u].l
+  #define rson L, R, N[u].r
+  #define OUT R <= N[u].L || N[u].R <= L
+  #define IN  L <= N[u].L && N[u].R <= R
+  struct Node { int L, R, l, r; };
+  vector<Node> N; int p, n; vector<int> rt;
+  inline void init(int _n) { N.resize(_n * (P ? 40:8));
+    n = _n; p = 1; rt.assign(1, build(0, n));
+  }
+  inline int copy(Node u) { return N[p] = u, p++; }
+  int build(int L, int R) {
+    int u = copy({L, R}), M = (L + R) >> 1;;
+    if (R - L == 1) return u;
+    return pull(u, build(L, M), build(M, R));
+  }
+  inline int push(int u) {
+    <push function>
+    return u;
+  }
+  inline int pull(int u, int l, int r) {
+    if (!l || !r) return l ? l : r;
+    push(N[u].l = l); push(N[u].r = r);
+    <pull function>
+    return u;
+  }
+  int m(int L, int R, int u, LL v) {
+    if (!u || OUT) return u; push(u);
+    if (P) u = copy(N[u]);
+    if (IN) return <modify function>, u;
+    return pull(u, m(lson, v), m(rson, v));
+  }
+  int q(int L, int R, int u) {
+    if (!u || OUT) return 0; push(u); if (IN) return u;
+    return pull(copy(N[u]), q(lson), q(rson));
+  }
+  inline void modify(int L, int R, int ver, LL v) {
+    rt[ver] = m(L, R, rt[ver], v);
+  }
+  inline Node& query(int L, int R, int ver) {
+    if (!P) p = 4 * n; return N[q(L, R, rt[ver])];
+  }
+};
+*/
