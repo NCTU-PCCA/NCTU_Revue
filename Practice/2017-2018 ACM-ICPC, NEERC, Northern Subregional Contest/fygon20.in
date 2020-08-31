@@ -1,0 +1,31 @@
+2
+for i in range(1, n):
+lag
+
+4
+for i in range(1, n):
+for j in range(1, i):
+for k in range(j, n):
+lag
+
+6
+for k in range(1, n):
+    for u in range(1, n):
+        for y in range(1, n):
+            for e in range(1, n):
+                for s in range(1, n):
+                    lag
+
+11
+for b in range(1, n):
+    for e in range(1, n):
+        for r in range(b, e):
+            for c in range(e, b):
+                for w in range(1, r):
+                    for y in range(1, b):
+                        for u in range(r, r):
+                            for o in range(y, r):
+                                for z in range(b, c):
+                                    for j in range(u, z):
+                                        lag
+
