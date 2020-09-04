@@ -16,7 +16,7 @@ template <bool P = 0> struct SegmentTree {
 */
 // LatexBegin
   vector<Node> N; int p, n; vector<int> rt;
-  inline void init(int _n) { N.resize(_n * (P ? 40:8));
+  inline void init(int _n) { N.resize(_n * (P ? 40:4));
     n = _n; p = 1; rt.assign(1, build(0, n));
   }
   inline int copy(Node u) { return N[p] = u, p++; }
@@ -43,6 +43,7 @@ template <bool P = 0> struct SegmentTree {
   }
   inline int pull(int u, int l, int r) {
     if (!l || !r) return l ? l : r;
+    N[u].L = N[l].L; N[u].R = N[r].R;
     push(N[u].l = l); push(N[u].r = r);
 // LatexEnd
     N[u].sum = N[l].sum + N[r].sum;
@@ -55,8 +56,7 @@ template <bool P = 0> struct SegmentTree {
     return u;
   }
   int m(int L, int R, int u, LL v) {
-    if (!u || OUT) return u; push(u);
-    if (P) u = copy(N[u]);
+    if (OUT) return u; push(u); if (P) u = copy(N[u]);
 // LatexEnd
     if (IN) return N[u].chg = v, u;
 /*
@@ -68,14 +68,14 @@ template <bool P = 0> struct SegmentTree {
     return pull(u, m(lson, v), m(rson, v));
   }
   int q(int L, int R, int u) {
-    if (!u || OUT) return 0; push(u); if (IN) return u;
+    if (OUT) return 0; push(u); if (IN) return u;
     return pull(copy(N[u]), q(lson), q(rson));
   }
   inline void modify(int L, int R, int ver, LL v) {
     rt[ver] = m(L, R, rt[ver], v);
   }
   inline Node& query(int L, int R, int ver) {
-    if (!P) p = 4 * n; return N[q(L, R, rt[ver])];
+    if (!P) p = 2 * n; return N[q(L, R, rt[ver])];
   }
 };
 // LatexEnd
@@ -109,7 +109,7 @@ template <bool P = 0> struct SegmentTree {
   #define IN  L <= N[u].L && N[u].R <= R
   struct Node { int L, R, l, r; };
   vector<Node> N; int p, n; vector<int> rt;
-  inline void init(int _n) { N.resize(_n * (P ? 40:8));
+  inline void init(int _n) { N.resize(_n * (P ? 40:4));
     n = _n; p = 1; rt.assign(1, build(0, n));
   }
   inline int copy(Node u) { return N[p] = u, p++; }
@@ -124,25 +124,26 @@ template <bool P = 0> struct SegmentTree {
   }
   inline int pull(int u, int l, int r) {
     if (!l || !r) return l ? l : r;
+    N[u].L = N[l].L; N[u].R = N[r].R;
     push(N[u].l = l); push(N[u].r = r);
     <pull function>
     return u;
   }
   int m(int L, int R, int u, LL v) {
-    if (!u || OUT) return u; push(u);
+    if (OUT) return u; push(u);
     if (P) u = copy(N[u]);
     if (IN) return <modify function>, u;
     return pull(u, m(lson, v), m(rson, v));
   }
   int q(int L, int R, int u) {
-    if (!u || OUT) return 0; push(u); if (IN) return u;
+    if (OUT) return 0; push(u); if (IN) return u;
     return pull(copy(N[u]), q(lson), q(rson));
   }
   inline void modify(int L, int R, int ver, LL v) {
     rt[ver] = m(L, R, rt[ver], v);
   }
   inline Node& query(int L, int R, int ver) {
-    if (!P) p = 4 * n; return N[q(L, R, rt[ver])];
+    if (!P) p = 2 * n; return N[q(L, R, rt[ver])];
   }
 };
 */
