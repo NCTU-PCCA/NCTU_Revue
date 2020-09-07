@@ -5,6 +5,7 @@ using namespace std;
 double dis(double x1, double y1, double x2, double y2) {
     return sqrt(sq(x1 - x2) + sq(y1 - y2));
 }
+const double eps = 1e-8;
 void solve(int x1, int y1, int x2, int y2, int x3, int y3, double A, double P) {
     // center (x1, y1)
 
@@ -17,7 +18,7 @@ void solve(int x1, int y1, int x2, int y2, int x3, int y3, double A, double P) {
     double maxLe = t1 + t2;
     double minLi = min(dis(x1, y1, x2, y2), dis(x1, y1, x3, y3));
     double maxLi = max(dis(x1, y1, x2, y2), dis(x1, y1, x3, y3));
-    if (minLe > minLi || maxLe > maxLi) return ;
+    if (minLe > minLi + eps || maxLe > maxLi + eps) return ;
 
     // x2, y2 -> minLe
     if (dis(x1, y1, x2, y2) > dis(x1, y1, x3, y3))
