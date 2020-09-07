@@ -57,6 +57,8 @@ S Math
     s LinearModInv          Math/LinearModInv.cpp               -                                   -
     s BigN                  Math/BigN.cpp                       test/Math/BigN                      -
     s FFT                   Math/FFT.cpp                        test/Math/FFT                       -
+    s NTT                   Math/NTT.cpp                        -                                   -
+    s FWT                   Math/FWT.cpp                        -                                   -
     s MillerRabin           Math/MillerRabin.cpp                test/Math/MillerRabin               -
     s Mobius                Math/Mobius.cpp                     test/Math/Mobius                    -
     s CRT                   Math/CRT.cpp                        test/Math/CRT                       -
@@ -66,7 +68,6 @@ S Math
     s PollardRho            Math/PollardRho.cpp                 -                                   -
     s PrimativeRoot         Math/PrimativeRoot.cpp              test/Math/PrimativeRoot             -
     s BSGS                  Math/BSGS.cpp                       -                                   -
-    s FWT                   Math/FWT.cpp                        -                                   -
 S Offline
     s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
     s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
@@ -83,3 +84,4 @@ S HanaYukii
     s Hungarian             HanaYukii/Hungarian.cpp             -                                   -
     s SegmentTreeBeats      HanaYukii/SegmentTreeBeats.cpp      -                                   -
     s cdq                   HanaYukii/cdq.cpp                   -                                   -
+    s Centroid              HanaYukii/Centroid.cpp              -                                   - 
