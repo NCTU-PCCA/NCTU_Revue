@@ -11,7 +11,6 @@ LL BSGS(LL B, LL N, LL P) { //  B^L = N mod
         if (!R.count(t)) R[t] = i;
         t = (t * B) % P;
     }
-    
     LL f = modInv(t, P);
     for (int i = 0 ; i <= sq + 1 ; i++) {
         if (R.count(N)) return i * sq + R[N];

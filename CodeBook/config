@@ -4,6 +4,7 @@ S Basic
 S Flow
     s Dinic                 Flow/Dinic.cpp                      test/Flow/Dinic                     -
     s MCMF                  Flow/MCMF.cpp                       test/Flow/MCMF                      -
+    s SWMinCut              Flow/SWMinCut.cpp                   -                                   -
 S DataStructure
     s unorderedMap          DataStructure/unordered_map.cpp     -                                   -
     s pbdsTree              DataStructure/pbds_tree.cpp         -                                   -
@@ -65,6 +66,7 @@ S Math
     s PollardRho            Math/PollardRho.cpp                 -                                   -
     s PrimativeRoot         Math/PrimativeRoot.cpp              test/Math/PrimativeRoot             -
     s BSGS                  Math/BSGS.cpp                       -                                   -
+    s FWT                   Math/FWT.cpp                        -                                   -
 S Offline
     s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
     s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
@@ -74,5 +76,10 @@ S Other
     s GridMST               Other/GridMST.cpp                   -                                   -
     s CountSpanningTree     Other/CountSpanningTree.cpp         -                                   -
     s StableMatching        Other/StableMatching.cpp            test/Other/StableMatching           -
-S tmp
-    s LinTreap              DataStructure/LinTreap.cpp          -                                   -
+    s Annealing             Other/Annealing.cpp                 -                                   -
+    s ConvexHullOptim       Other/ConvexHullOptim.cpp           -                                   -
+S HanaYukii
+    s Combination           HanaYukii/Combination.cpp           -                                   -
+    s Hungarian             HanaYukii/Hungarian.cpp             -                                   -
+    s SegmentTreeBeats      HanaYukii/SegmentTreeBeats.cpp      -                                   -
+    s cdq                   HanaYukii/cdq.cpp                   -                                   -
