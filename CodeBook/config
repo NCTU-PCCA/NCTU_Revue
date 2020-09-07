@@ -68,6 +68,7 @@ S Math
     s PollardRho            Math/PollardRho.cpp                 -                                   -
     s PrimativeRoot         Math/PrimativeRoot.cpp              test/Math/PrimativeRoot             -
     s BSGS                  Math/BSGS.cpp                       -                                   -
+    s DiscreteRoot          Math/DiscreteRoot.cpp               -                                   -
 S Offline
     s Mo                    Offline/Mo.cpp                      test/Offline/Mo                     -
     s TotBS                 Offline/TotBS.cpp                   test/Offline/TotBS                  -
