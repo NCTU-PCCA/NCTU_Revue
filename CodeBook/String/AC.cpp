@@ -8,10 +8,12 @@ struct AC { struct Node; vector<Node> N;
 // LatexEnd
 /*
 // LatexBegin
-  struct Node : map<char, int> { int p; }; int r;
+  struct Node : map<char, int> { int p, nx; }; int r;
 // LatexEnd
 */
-  struct Node : map<char, int> { int p, dp, vis; }; int r;
+  struct Node : map<char, int> { int p, dp, vis, nx; 
+    vector<int> idx;
+  }; int r;
 // LatexBegin
   void init() { N.PB({{}}); r = newNode(); }
   int newNode() { N.PB({}); return N.size() - 1; }
@@ -26,12 +28,18 @@ struct AC { struct Node; vector<Node> N;
   void buildAC() { static queue<int> q; q.push(r);
     while (q.size()) { int u = q.front(); q.pop();
       for (auto &p : N[u])
-        N[p.S].p = trans(N[u].p, p.F), q.push(p.S);
+        N[p.S].p = N[p.S].nx = trans(N[u].p, p.F),
+        q.push(p.S);
     }
   }
   int trans(int u, char c) { if (!u) return r;
     if (!N[u].count(c)) N[u][c] = trans(N[u].p, c);
     return N[u][c];
+  }
+  int next(int u) {
+    if (N[u].nx == 0) return r;
+    if (N[N[u].nx].idx.size()) return N[u].nx;
+    return N[u].nx = next(N[u].nx);
   }
 } solver;
 // LatexEnd

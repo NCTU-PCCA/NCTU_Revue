@@ -18,7 +18,8 @@ P CircleCenter(P a, P b, P c) {
   return ret;
 }
 
-pair<P, T> SmallestEnclosingCircle(vector<P> & points) {
+pair<P, T> SmallestEnclosingCircle(vector<P> points) {
+  random_shuffle(points.begin(), points.end());
   T r = 0; int pn = points.size();
   if (pn == 0) {
     return pair<P, T>(P(0, 0), 0);
