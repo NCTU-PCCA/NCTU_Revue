@@ -1,0 +1,13 @@
+10 12
+word_0 word_1? word_1
+word_0 word_2 word_0? word_3
+word_0 word_2 word_1 word_1? word_4
+word_0 word_2 word_1 word_4? word_5
+word_0 word_2 word_3? word_0
+word_0 word_2 word_4? word_9
+word_0 word_3? word_2
+word_0 word_4 word_2 word_1? word_7
+word_0 word_4 word_2 word_4? word_5
+word_0 word_4 word_4 word_2? word_7
+word_0 word_4 word_4 word_4 word_0? word_0
+word_0 word_4 word_4 word_4 word_4 word_4? word_9
