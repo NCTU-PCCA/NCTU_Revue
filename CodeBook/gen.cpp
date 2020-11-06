@@ -188,7 +188,7 @@ void genCodeBook(CodeBook &codebook) {
                     write = true;
             }
             out << "\t\\subsection{" << _s.name << "}\n";
-            out << "\t\t\\lstinputlisting [language=c++] { .tmp/" << _s.sour_path << " }\n";
+            out << "\t\t\\lstinputlisting [language=c++] {.tmp/" << _s.sour_path << "}\n";
         }
     }
 }

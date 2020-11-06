@@ -9,7 +9,7 @@ int main() {
       cin >> p.x >> p.y;
     sort(data.begin(), data.end());
     pair<P, P> ans = closetPair(data);
-    cout << fixed << setprecision(10) << dist(ans.F, ans.S) << '\n';
+    cout << fixed << setprecision(10) << ans.F.dist(ans.S) << '\n';
   }
 }
 
